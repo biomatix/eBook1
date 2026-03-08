@@ -3,9 +3,9 @@ Title: This package loads the markdown worked examples and exercises into the Tu
 Version: 0.1.0
 Authors@R: c(
     person("Emily", "Stringer", role = "aut",
-           comment = "Original author and upstream maintainer"),
+           comment = "Original author"),
     person("Arthur", "Georges", role = c("aut", "cre"),
-           email = "arthur.georges@biomatix.com.au")
+           comment = "arthur.georges@biomatix.com.au")
 )
 Description: Provides starter datasets, worked examples, exrecises as learnr tutorials
     to support the eBook 'Getting Started with dartR' embedded in the dartR ecosystem. 
