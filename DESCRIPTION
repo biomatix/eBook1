@@ -6,7 +6,6 @@ Authors@R: c(
            comment = "Original author"),
     person("Arthur", "Georges", email = "arthur.georges@biomatix.com.au",
            role = c("aut", "cre"))
-)
 Description: Provides starter datasets, worked examples, exrecises as learnr tutorials
     to support the eBook 'Getting Started with dartR' embedded in the dartR ecosystem. 
 License: MIT + file LICENSE
