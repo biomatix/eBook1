@@ -1,12 +1,12 @@
 ---
-title: "eBook Getting Started with dartR" 
-author: "The dartR Team"
+title: "eBook Getting Started with dartRverse" 
+author: "The dartRverse Team"
 date: | 
     ![](images/dartR7.png){width=6cm}
     
 tutorial:
   id: "dartr.getting-started"   # pick any stable, unique string
-  version: "1.0.21"                 # bump this to force a “fresh” tutorial state
+  version: "1.0.22"                 # bump this to force a “fresh” tutorial state
   
 output:
   learnr::tutorial:
@@ -30,9 +30,7 @@ knitr::opts_chunk$set(
 library(learnr) 
 library(htmltools)
 #options(repos = BiocManager::repositories())
-library(dartR.data)
-library(dartR.base)
-library(dartR.sexlinked)
+library(dartRverse)
 gl.set.verbosity(3)
 
 #library(dartRintro) # for tutorial data
