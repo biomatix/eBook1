@@ -1,23 +1,15 @@
 Package: dartRstartup
-Title: Learnr Tutorials and Worked Examples for Getting Started with dartR
+Title: Learnr Tutorials and Worked Examples for Getting Started with dartRverse
 Version: 0.1.0
 Authors@R: c(
     person("Emily", "Stringer", role = "aut",
            comment = "Original author"),
     person("Arthur", "Georges", email = "arthur.georges@biomatix.com.au",
            role = c("aut", "cre"))
-Description: Provides starter datasets, worked examples, exrecises as learnr tutorials
-    to support the eBook 'Getting Started with dartR' embedded in the dartR ecosystem. 
+)
+Description: Provides starter datasets, worked examples, exercises as learnr tutorials
+    to support the eBook 'Getting Started with dartRverse' embedded in the dartRverse ecosystem.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Depends:
-    R (>= 4.1)
-LazyData: true
-Imports:
-    learnr,
-    dartR.base,
-    dartR.sexlinked
-URL: https://github.com/biomatix/dartRstartup
-BugReports: https://github.com/biomatix/dartRstartup/issues
