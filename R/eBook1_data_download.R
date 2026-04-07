@@ -4,8 +4,8 @@
 # - Special archives stay compressed and go to getwd(): eBook1.zip, eBook1.tar.gz
 # - Does NOT add pdf/htm/Rmd
 
-index_url <- "http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Media%20_%20OctoberCMS.htm"
-base_url  <- "http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/"
+index_url <- "http://georges.biomatix.org/storage/app/media/eBook1/Media_OctoberCMS.htm"
+base_url  <- "http://georges.biomatix.org/storage/app/media/eBook1/"
 
 options(timeout = 300)
 
