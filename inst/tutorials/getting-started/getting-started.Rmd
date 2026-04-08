@@ -6,7 +6,7 @@ date: |
     
 tutorial:
   id: "dartr.getting-started"   # pick any stable, unique string
-  version: "1.0.22"                 # bump this to force a “fresh” tutorial state
+  version: "1.0.23"                 # bump this to force a “fresh” tutorial state
   
 output:
   learnr::tutorial:
