@@ -3104,7 +3104,7 @@ length(numbers) # For example ....
 ```
 
 For a more detailed account of working with vectors in R, refer to the 
-<a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Vectors.htm"
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Vectors.htm"
    target="_blank" rel="noopener">AI Guide to R vectors</a>
 
 
@@ -3147,7 +3147,7 @@ width <- as.numeric(as.character(width))
 width
 ```
 
-For a more detailed account of working with factors in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Factors.htm"
+For a more detailed account of working with factors in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Factors.htm"
    target="_blank" rel="noopener">AI Guide to factors</a>.
 
 ### Matrices {data-continue-text="Continue"}
@@ -3218,8 +3218,8 @@ mat[]
 An array is a multi-dimensional data structure that can have more than two dimensions (unlike matrices which are strictly two-dimensional). Think of arrays as extending the concept of matrices to three, four, or more dimensions. All elements in an array must be of the same data type. Each element can be accessed by specifying its position in each dimension.
 
 For a more detailed account of working with matrices and arrays in R, refer to the 
-<a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Matrices.htm"
-   target="_blank" rel="noopener">AI Guide to R Matrices</a> and the <a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Arrays.htm"
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Matrices.htm"
+   target="_blank" rel="noopener">AI Guide to R Matrices</a> and the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Arrays.htm"
    target="_blank" rel="noopener">AI Guide to R Arrays</a>
 
 ### Dataframes {data-continue-text="Continue"}
@@ -3235,7 +3235,7 @@ Dataframes are usually created by inputting data from a text file or csv file. I
 Download the data first.
 
 ```{r eval =FALSE}
-utils::download.file(url = "http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Caretto.dat", destfile = "Caretto.dat")
+utils::download.file(url = "http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat", destfile = "Caretto.dat")
 ```
 
 ```{r eval =FALSE}
@@ -3243,7 +3243,7 @@ df <- read.table("Caretto.dat", header=FALSE)
 ```
 
 ```{r datatab, echo = FALSE, cache=FALSE}
-df <- read.table("http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Caretto.dat")
+df <- read.table("http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat")
 ```
 This statement assigns the data in the raw datafile [Caretto.dat]{style="color:blue;"} to the dataframe [df]{style="color:blue;"}. 
 
@@ -3265,8 +3265,8 @@ df
 ```
 
 
-```{r datatab2}
-df <- turtles.df
+```{r datatab2, echo = FALSE, cache=FALSE}
+df <- read.table("http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat")
 names(df) <- c("identity","sex","len","hw","wt")
 
 ```
@@ -3315,7 +3315,7 @@ Alternatively, `cbind()` which can be used to add vectors to a dataframe as new 
 
 The `rbind()` function can be used to join two like dataframes together, one to follow the other, or to bind a vector to a dataframe as an additional row. The vector needs to be of the same length as the number of columns in the dataframe, and to have data of appropriate type in each column. Character variables in a dataframe are often considered factors and their values as factor levels. Any character values added may need to have compatible factor levels.
 
-For a more detailed account of working with dataframes in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Data_Frames.htm"
+For a more detailed account of working with dataframes in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Data_Frames.htm"
    target="_blank" rel="noopener">AI Guide to Dataframes</a>.
 
 ### Lists {data-continue-text="Continue"}
@@ -3386,7 +3386,7 @@ exp_results[["wt"]] <- weights
 exp_results
 ```
 
-For a more detailed account of working with lists in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Lists.htm"
+For a more detailed account of working with lists in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Lists.htm"
    target="_blank" rel="noopener">AI Guide to Lists in R</a>.
 
 ### How R Handles Missing Values {data-continue-text="Continue"}
@@ -3438,7 +3438,7 @@ There are several common methods for loading data into R, each suited for differ
 
 CSV Files are the most common format for scientific data exchange. They comprise rows with the values to be assigned to each column separated by commas. 
 
-Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Tympo_ind_metadata.csv").
+Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv").
 
 Forgotten the path to your working directory? You need to type `getwd()` in the console of your RStudio session. 
 
@@ -3450,7 +3450,7 @@ metadata <- read.csv("./data/Tympo_ind_metadata.csv")
 ```
 
 ```{r datainput, echo = FALSE, cache=FALSE}
-metadata <- read.csv("http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Tympo_ind_metadata.csv")
+metadata <- read.csv("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv")
 ```
 
 The `read.csv()` family of functions offers important parameters for scientific data: `na.strings` to specify how missing values are coded, `stringsAsFactors` to control text handling, and `skip` to ignore header information common in instrument output files. Access help for more information on options by typing the folowing command in your RStudio console.
@@ -3567,7 +3567,7 @@ lglength
 
 If you have not retained the df dataframe from Worked Example 2-2, recreate it.
 
-Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Tympo_ind_metadata.csv").
+Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv").
 
 Forgotten the path to your working directory? You need to type `getwd()` in the console of your RStudio session. 
 
@@ -3579,7 +3579,7 @@ df <- read.csv("./data/Tympo_ind_metadata.csv")
 ```
 
 ```{r datainput2, echo = FALSE, cache=FALSE}
-df <- read.csv("http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Tympo_ind_metadata.csv")
+df <- read.csv("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv")
 ```
 
 Identify the fields in the dataframe `metadata`
@@ -3848,7 +3848,7 @@ vec_means
 
 ```
 
-For a more detailed account of working with **apply** family functions in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_apply_Family%20_of%20_Functions.htm"
+For a more detailed account of working with **apply** family functions in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_apply_Family%20_of%20_Functions.htm"
    target="_blank" rel="noopener">AI Guide to **apply** family functions in R</a>.
 
 ### Winding up {data-continue-text="Next Worked Example"}
@@ -3906,7 +3906,7 @@ It is possible to put any number of statements inside the curly brackets, and so
 Your own functions can be used in the lapply() function to apply it to the elements of a list or vector. This gives them great utility.
 
 For a more detailed account of working with functions in R, refer to the 
-<a href="http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/AI_Guide_to_R_Functions.htm"
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Functions.htm"
    target="_blank" rel="noopener">AI Guide to R functions</a>
 
 ### Winding up {data-continue-text="Next Topic"}
@@ -3940,9 +3940,9 @@ dartRstartup::eBook1_data(data_folder = "data")
 
 Two files should be located in the /data directory in your RStudio working directory.
 
-- [Report_Dtym25-13579_SNP.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Report_DTym25-13579_SNP.csv) : This is the set of SNP data for Canberra Grassland Earless Dragons in 2-row format as would be supplied by DArT.
+- [Report_Dtym25-13579_SNP.csv](http://georges.biomatix.org/storage/app/media/eBook1/Report_DTym25-13579_SNP.csv) : This is the set of SNP data for Canberra Grassland Earless Dragons in 2-row format as would be supplied by DArT.
 
-- [Tympo_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Tympo_ind_metadata.csv) : This file contains the additional individual metadata -- attributes assigned to each individual.
+- [Tympo_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv) : This file contains the additional individual metadata -- attributes assigned to each individual.
 
 Open the file [Report_Dtym25-13579_SNP.csv]{style="color:blue;"} in Excel. There are some columns with locus metadata and some first rows with individual metadata. There are two rows for each SNP, scoring presence (1) or absence (0). These files are typically very large, and excel can cause issues with them. So once you have had a look, **exit without saving**.
 
@@ -4057,11 +4057,11 @@ Let's see if that is true, that you are now a pro, by putting what you have lear
 
 ### {data-continue-text="Next Exercise"}
 
-- Open the file [sample_data_1Row.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/sample_data_1Row.csv) in Excel. This is a set of SNP data for *Emydura*, a freshwater turtle,  in 1-row format as would be supplied by DArT.
+- Open the file [sample_data_1Row.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_data_1Row.csv) in Excel. This is a set of SNP data for *Emydura*, a freshwater turtle,  in 1-row format as would be supplied by DArT.
 
 - Refer to the documentation on the [DArT web page](https://www.diversityarrays.com/) to understand the scoring of SNPs in the 1-row format.
 
-- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
+- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
 
 
 -	Create a new script in the RStudio Editor Window and add the lines
@@ -4080,11 +4080,11 @@ Let's see if that is true, that you are now a pro, by putting what you have lear
 
 ## Exercise 3-2: Reading in SilicoDArT Data
 
-- Open the file [sample_data_SilicoDArT.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/sample_data_SilicoDArT.csv) in Excel. This is a set of marker presence/absence data for *Cherax destructor* provided in SilicoDArT format by DArT.
+- Open the file [sample_data_SilicoDArT.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_data_SilicoDArT.csv) in Excel. This is a set of marker presence/absence data for *Cherax destructor* provided in SilicoDArT format by DArT.
 
 - Refer to the documentation on the [DArT web page](https://www.diversityarrays.com/) to understand the scoring of the data in the SilicoDArT format.
 
-- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
+- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
 
 
 -	Create a new script in the RStudio Editor Window and add the lines
@@ -5083,18 +5083,18 @@ We strongly encourage you to finish off the eBook by completing some of the inte
 
 ## Exercise 7-1: Camaroon Macrobrachium 
 
-Macrobrachium is a large and cosmopolitan crustacean genus of high economic importance worldwide. The authors of [this study](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/2019_Makombu_Ecology_Evolution_Macrobrachium.pdf) investigated the morphological and molecular identification of freshwater prawns of the genus Macrobrachium in South, Southwest and Littoral regions of Cameroon in Africa. Seven species occur in the area:  *M. vollenhovenii, M. macrobrachion, M. sollaudii, M. dux, M. chevalieri, M. felicinum* and an undescribed *Macrobrachium* species. The objective of the study was to validate (or invalidate) the identified species based on their genetic profiles. A total of 93 individuals representing these species were subjected to genetic characterization using 1,814 DArT markers. This study is considered valuable for informing breeding design and genetic resource conservation programs for Macrobrachium in Africa.
+Macrobrachium is a large and cosmopolitan crustacean genus of high economic importance worldwide. The authors of [this study](http://georges.biomatix.org/storage/app/media/eBook1/2019_Makombu_Ecology_Evolution_Macrobrachium.pdf) investigated the morphological and molecular identification of freshwater prawns of the genus Macrobrachium in South, Southwest and Littoral regions of Cameroon in Africa. Seven species occur in the area:  *M. vollenhovenii, M. macrobrachion, M. sollaudii, M. dux, M. chevalieri, M. felicinum* and an undescribed *Macrobrachium* species. The objective of the study was to validate (or invalidate) the identified species based on their genetic profiles. A total of 93 individuals representing these species were subjected to genetic characterization using 1,814 DArT markers. This study is considered valuable for informing breeding design and genetic resource conservation programs for Macrobrachium in Africa.
 
 ![](images/ex7-1.jpg)
 
-Refer to the [original paper](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/2019_Makombu_Ecology_Evolution_Macrobrachium.pdf) by Judith Makombu and her team for further detail on the study. 
+Refer to the [original paper](http://georges.biomatix.org/storage/app/media/eBook1/2019_Makombu_Ecology_Evolution_Macrobrachium.pdf) by Judith Makombu and her team for further detail on the study. 
 
 You are asked to use this dataset to apply what you have learned from this introductory eBook, drawing from across all Chapters of this eBook. Note that the data may have been modified for educational purposes and that you should refer to the original paper and its supplementary files for the definitive data, or contact the authors directly, if you wish to draw upon these data for research purposes.
 
 
 #### Begin by reading the SNP data into dartR 
 
--	First, examine the contents of the metadata file, [Macrobrachium_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Macrobrachium_ind_metadata.csv). This file has the individual metadata associated with each individual, including such attributes as sex, latitude, longitude, river etc. Recall that these individual metadata are assigned to each individual as the data are read in.
+-	First, examine the contents of the metadata file, [Macrobrachium_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Macrobrachium_ind_metadata.csv). This file has the individual metadata associated with each individual, including such attributes as sex, latitude, longitude, river etc. Recall that these individual metadata are assigned to each individual as the data are read in.
 
 -	Read the data into dartR from [Report-DShr16-2215_2Row_SNP.csv]{style="color: blue;"}. Be sure to associate the individual metadata.
 
@@ -5243,12 +5243,12 @@ Landscape-scale conservation needs to consider metapopulation dynamics declines 
 
 ![](images/ex7-3.jpg)
 
-This work has been published in [Conservation Biology](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/2023_Shaw_Quolls_Conservation_Biology.pdf). You are encouraged to read this paper to gain a greater appreciation of the context of the analysis.
+This work has been published in [Conservation Biology](http://georges.biomatix.org/storage/app/media/eBook1/2023_Shaw_Quolls_Conservation_Biology.pdf). You are encouraged to read this paper to gain a greater appreciation of the context of the analysis.
 You are asked to use this dataset to apply what you have learned from this introductory eBook, drawing from across all Chapters of this eBook. Note that the data may have been modified for educational purposes and should not be used for research purposes.
 
 #### Begin by reading the SNP data into dartR 
 
--	First, examine the contents of the metadata file, [Dasyurus_hallucatus_ind.metadata.csv](http://georges.biomatix.org/storage/app/media/eBook%20Introduction%20to%20dartR/Dasyurus_hallucatus_ind.metadata.csv). This file has the metadata associated with each individual, including such attributes as sex, species, latitude, longitude, etc. 
+-	First, examine the contents of the metadata file, [Dasyurus_hallucatus_ind.metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Dasyurus_hallucatus_ind.metadata.csv). This file has the metadata associated with each individual, including such attributes as sex, species, latitude, longitude, etc. 
 
 -	We have already read the data into dartR from [Report_DDasy19-4717_1Row.csv]{style="color:blue;"} and saved it as [Dasyurus_SNP_raw.Rdata]{style="color:blue;"}. Load this binary datafile [Dasyurus_SNP_raw.Rdata]{style="color:blue;"} into dartR.
 
