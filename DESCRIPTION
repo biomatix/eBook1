@@ -1,6 +1,6 @@
 Package: eBook1
 Title: Learnr Tutorials and Worked Examples for Getting Started with dartRverse
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Emily", "Stringer", role = "aut",
            comment = "Original author"),
