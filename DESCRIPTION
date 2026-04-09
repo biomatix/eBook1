@@ -1,6 +1,6 @@
-Package: dartRstartup
-Title: Learnr Tutorials and Worked Examples for Getting Started with dartR
-Version: 0.1.0
+Package: eBook1
+Title: Learnr Tutorials and Worked Examples for Getting Started with dartRverse
+Version: 0.1.1
 Authors@R: c(
     person("Emily", "Stringer", role = "aut",
            comment = "Original author"),
@@ -8,7 +8,7 @@ Authors@R: c(
            role = c("aut", "cre"))
     )
 Description: Provides starter datasets, worked examples, exercises as learnr tutorials
-    to support the eBook 'Getting Started with dartR' embedded in the dartR ecosystem.
+    to support the eBook 'Getting Started with dartRverse' embedded in the dartR ecosystem.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
