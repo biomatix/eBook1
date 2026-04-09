@@ -1,11 +1,2671 @@
 ---
 title: "eBook Getting Started with dartRverse" 
+author: "The dartR Team"
+date: | 
+    ![](images/dartR7.png){width=6cm}
+    
+tutorial:
+  id: "dartr.getting-started"   # pick any stable, unique string
+  version: "1.0.21"                 # bump this to force a “fresh” tutorial state
+  
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    theme: "cerulean"
+    highlight: 'monochrome'
+    css: ./css/dartR_style.css
+runtime: shiny_prerendered
+description: "This is the beginning of your journey learning the basics of dartRverse, a hands on guide."
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+
+#necessary to render tutorial correctly
+library(learnr) 
+library(htmltools)
+#options(repos = BiocManager::repositories())
+library(dartRverse)
+gl.set.verbosity(3)
+
+#library(dartRintro) # for tutorial data
+# Locate helper script reliably (works in local dev and when installed)
+p <- file.path("www", "reassign_ind_function.R")
+
+# If render is happening from repo root
+if (!file.exists(p)) {
+  p <- file.path("inst", "tutorials", "getting-started", "www", "reassign_ind_function.R")
+}
+
+# If running from an installed package
+if (!file.exists(p)) {
+  p_pkg <- system.file("tutorials/getting-started/www/reassign_ind_function.R",
+                       package = "dartRstartup")
+  if (nzchar(p_pkg)) p <- p_pkg
+}
+
+if (!file.exists(p)) {
+  stop("Cannot find reassign_ind_function.R (tried local and installed locations).")
+}
+source(p)
+library(dartRstartup)
+
+```
+## Getting Started {#custom data-progressive=FALSE}
+
+The following materials accompany the [eBook: Getting Started with dartRverse](http://dartr.biomatix.org/dartR). 
+
+The Worked Examples and Exercises that accompany the eBook are written in [Markdown](https://www.markdownguide.org/) and rendered in [learnr](https://rstudio.github.io/learnr/). This maintains currency of the eBook during the continual development of dartRverse. 
+
+New Worked Examples and Exercises can be added at any time to better cater for particular audiences, without republishing the eBook.
+
+The main body of the eBook (the printed version), does not change.
+
+### Worked Examples
+
+Having set the learning objectives and covered the theory in the early Sessions of each Chapter, the eBook links to the relevant Worked Examples listed in the main menu. In Chapter 1, the RStudio Refresher, simply work through the materials in RStudio. Chapter 2 on R as a programming language is optional. R programming is not required to use dartRverse. Depending upon your level of experience, it is fine to simply work through the Worked Examples 2-1 to 2-4 as it appears in the RStudio Tutorial Window by running the code in each RCode Box. This is designed to provide an overview.
+
+These RCode Boxes are interactive, in that they present short R scripts in discrete consoles (like the one below) can be executed. 
+
+```{r ex, exercise=TRUE}
+# Press the Run Code button to run this code
+result <- 1+1
+result
+```
+
+Note that while going through the Worked Examples your progress will be saved, if at any point you would like to refresh the tutorial and start over, a <small>[Start Over]{style="color:#a3a3a3; font-family:'Jaldi', sans-serif;"}</small> button is available.
+
+You can play with the Code in the RCode Boxes or copy the Code and explore further in the RStudio Editor.
+
+For the more substantive Chapters 3-6, where the analyses build in complexity as they progress, the most productive workflow is to **execute the scripts provided via the RStudio Editor**. This way you are 
+
+- undertaking the worked examples in the same manner as you would in undertaking your own analyses.
+
+- Provided with the flexibility for you to branch out and follow any ideas or other analyses that might strike you as interesting on the way. 
+
+- Able to concurrently run the code on your own datasets which is an extremely productive activity. 
+
+- Able to use the RStudio Editor to save your complete analysis for future use and pot-boiling.
+
+### Workflow
+
+The workflow is determined by the eBook text. You should pay attention to the Learning Outcomes in each Chapter and to the *Where have we come?* sections so as to stay centred on the important capacities to take away from this program. 
+
+It is **critically important** that you read the theory sections of each chapter, and optionally listen to the AI Podcast Summary for each Chapter before you launch into the Worked Examples and Exercises.
+
+When to move to the Worked Examples is indicated in the eBook. The Worked Examples are accessed from the Tutorial Window of RStudio. Hence you can easily cross-refer between the Worked Example and the RStudio Editor. This gives you great flexibility to run the Worked Examples while exploring code variations on the way.
+
+When to move to the Exercises is also indicated in the eBook. The Exercises are important because they force you to pull together what you have learned from a particular Chapter in a problem-solving context. You think you know the material until you are forced to apply it. So spend time on these.
+
+Finally, there are the Integrative Exercises. These are built around real-world examples and require you to draw from learnings from all Chapters to solve the problems presented.
+
+**Do not** be tempted to simply undertake the Worked Examples, Exercises and Integrative Exercises by progressing through this Menu without reference to the eBook materials. Your learning will be the poorer for it.
+
+All aspects of the material are beneficial for learning -- the eBook for an introduction to the theory and methods, the Worked Examples to gain experience with dartRverse functions and how they are combined in a workflow, and finally the Exercises to apply everything you have learned without coaching in a problem-solving context.
+
+<small>If you can't see the left sidebar, you just need to make the tutorial panel wider.</small>
+
+### Data
+
+You should already have the required datafiles in your working directory, if you have been following the eBook instructions in Chapter 1. If the datafiles are not there, run
+
+source("http://georges.biomatix.org/storage/app/media/eBook1/eBook_data_download.txt")
+
+### Let's get started! 
+
+Pick your Worked Example or Exercise from the Menu under direction from the eBook.
+
+<p>**Good luck on your dartRverse journey!** 😁</p>
+
+## Chapter 1
+
+### {data-continue-text="Contiue to Exercise"}
+
+The objective of this chapter is to introduce you to to the RStudio graphics user interface (GUI) for R. This GUI will be used throughout this eBook as the environment for undertaking analyses, so it is important to be fully abreast of RStudio.
+
+The activities in the chapter are pretty self-contained. However, we include one exercise here.
+
+## Exercise 1-1: Installing and using Packages {data-progressive=TRUE}
+
+Installations can be quite complex as there are many moving parts, so expect to do some troubleshooting with the assistance of Dr Google and an AI client.
+
+### CRAN {data-continue-text="Continue"}
+
+CRAN is the main public repository for the R ecosystem, a bit like the central library or app store for R packages, though with more formal checking. Packages submitted to CRAN are tested for installation, portability, and policy compliance before they are accepted. To use CRAN packages, you need to
+
+- Identify the package you wish to install, usually by reference to the literature or browsing the web.
+
+- Check what you have already installed using
+[installed.packages()]{style="color:blue;"} or by viewing the list under Packages tab.
+
+- install the desired package, in this case *adegenet* using [install.packages("adegenet")]{style="color:blue;"}. Note the use of quotes. This places a copy of the package on your computer.
+
+- load the package into R using [library(adegenet)]{style="color:blue;"}. Note the absence of quotes. This makes the package available to your current R session. Alternatively you can load the package by ticking the relevant checkbox when viewing the list under the Packages tab.
+
+```{r eval = FALSE}
+install.packages("reshape2")
+library(reshape2)
+```
+
+and test that it has been installed.
+
+```{r eval = FALSE}
+packageVersion("reshape2")
+sessionInfo()
+```
+
+Note that some packages may require that you have installed Rtools. It is sensible to install this in advance.
+
+- Install [Rtools]("https://cran.r-project.org/bin/windows/Rtools/rtools45/files/rtools45-6691-6492.exe") outside RStudio by downloading and executing the executable.
+
+### Bioconductor {data-continue-text="Continue"}
+
+Bioconductor is a specialized repository for bioinformatics and genomics. To download a package from Bioconductor, you need to
+
+- Identify the package you wish to install, usually by reference to the literature or browsing the web or Bioconductors package site.Let's assume it is package *DESeq2*.
+
+- Check what you have already installed using [installed.packages()]{style="color:blue;"} or by viewing the list under Packages tab.
+
+- If the package you seek is available from BioConductor, proceed as follows:
+
+```{r eval = FALSE}
+install.packages("BiocManager")
+library(BiocManager)
+BiocManager::install("DESeq2")
+library(DESeq2)
+```
+
+and test that it has been installed.
+
+```{r eval = FALSE}
+packageVersion("DESeq2")
+sessionInfo()
+```
+
+### Github {data-continue-text="Continue"}
+
+GitHub repositories are usually under development, but you may wish to access them directly because it can take some time for them to make it in stable form to one of the major repositories.
+
+Let's install the development version of sads (Species Abundance Distributions) from piLaboratories.
+
+```{r eval = FALSE}
+install.packages("remotes")
+library(remotes)
+remotes::install_github(repo = 'piLaboratory/sads', ref= 'dev')
+library(sads)
+```
+and test that it has been installed.
+
+```{r eval = FALSE}
+x <- c(10, 8, 6, 3, 2, 1)
+fit <- fitrad(x)
+fit
+summary(fit)
+```
+
+### Winding up {data-continue-text="Next Topic"}
+
+Got the hang of RStudio? Great news. 
+
+**You should now return to Chapter 1 and review the outcomes under the heading** *Where have we come?* **Then go to Chapter 2 of the eBook if you want to learn about R as a programming language** (optional) **or skip ahead to Chapter 3**.
+
+
+## Chapter 2
+
+### {data-continue-text="Continue to Worked Example"}
+
+This material is **optional**. The objective is to introduce you to R programming. The package dartRverse does not require an in-depth knowledge of R programming, so those not wishing to dive deeper into the R programming aspects of SNP data analysis can skip this chapter and move directly to Chapter 3.
+
+That said, before you move on to the Worked Examples and Exercises provided below, be sure to have worked through the introductory material on programming concepts in eBook Chapter 2.
+
+Because this material is optional, the Worked Examples may be treated as revisionary, and the code run within the RCode Boxes without referring to RStudio. Or you can progressively transfer the code to your RStudio Editor to execute it and explore more options on your own.
+
+## Worked Example 2-1: Data Structures {data-progressive=TRUE}
+
+### Objects in R {data-continue-text="Continue"}
+
+R works with objects, that is, with self-contained entities that have defined attributes. These entities may be a scalar value, a vector of values, a matrix or even a function. The advantage of objects is that when you use an object in calculations, R knows what it is based on its attributes and so how to handle it in calculations.
+
+When you create an object in R, its Class and attributes are assigned to it by default. The decision is made behind the scenes. Let's see how this works in defining some scalar objects.
+
+### Scalars {data-continue-text="Continue"}
+
+A Scalar is an object that contains a single value. It could be a number, or a character string, or a logical variable (`TRUE` or `FALSE`). Here we assign a scalar object a value, display that value, then enquire as to its Class. Note that the Class is allocated behind the scenes by R based on the type of value being assigned.
+
+```{r ex21c, exercise = TRUE}
+# Character scalar
+chr <- "Juvenile"
+# Print out its value
+chr
+# Print out its Class
+class(chr)
+```
+
+```{r  ex21d, exercise = TRUE}
+# Numeric scalar
+num <- 6
+# Print out its value
+num
+# Print out its Class
+class(num)
+```
+
+```{r  ex21e, exercise = TRUE}
+# Logical scalar
+log <- FALSE
+# Print out its value
+log
+# Print out its Class
+class(log)
+```
+
+### Vectors {data-continue-text="Continue"}
+
+A vector is an object containing an ordered set of values all of the same type. Vectors are the fundamental building blocks of data in R so we visit vectors in some detail here.
+
+#### Creating Vectors
+
+Use the `c()` function (which stands for "combine" or "concatenate") to create vectors of class character, numeric, or logical.
+
+```{r ex21f, exercise = TRUE}
+# Character vector (text)
+names <- c("Alice", "Bob", "Carol", "Dave")
+# Print out its value
+names
+```
+
+```{r ex21g, exercise = TRUE}
+# Numeric vector
+temperatures <- c(72, 68, 75, 71, 69)
+# Print out its value
+temperatures
+```
+
+```{r ex21h, exercise = TRUE}
+# Logical vector (TRUE/FALSE)
+test_results <- c(TRUE, FALSE, TRUE, TRUE)
+# Print out its value
+test_results
+```
+
+Note: In R, even scalar values are vectors, but with length 1. Here we assign a scalar the value 42 and ask if it is a vector with is.vector().
+
+```{r ex21j, exercise = TRUE}
+single_value <- 42
+# Is it a vector?
+is.vector(single_value)
+# What is its length?
+length(single_value)
+```
+
+### Accessing Vector Elements {data-continue-text="Continue"}
+
+```{r data2, echo = FALSE}
+width <- c(10.4,5.6,3.1,6.4,21.7)
+names <- c("Alice", "Bob", "Carol", "Dave")
+vec <- c(1, 2, NA, 4, 5)
+sexcode <- c("F", "F", "M", "J", "F", "M", "J", "J", "F")
+mat <- matrix(NA, nrow = 3, ncol = 4) 
+```
+
+Use square brackets to specify vector elements.
+
+```{r ex21uuwxi, exercise = TRUE, exercise.setup="data2"}
+# Create a vector
+width <- c(10.4,5.6,3.1,6.4,21.7)
+# Access a single element
+width[4]
+```
+
+You can specify multiple vector elements.
+
+```{r ex21vv, exercise = TRUE, exercise.setup="data2"}
+# Access multiple specific elements
+width[c(1,3,4)]
+```
+
+or a range of values
+
+```{r ex21ww, exercise = TRUE, exercise.setup="data2"}
+# Access a range of specific elements
+width[1:4]
+```
+
+or all but specified elements
+
+```{r ex21xx, exercise = TRUE, exercise.setup="data2"}
+# Access all except specified elements (negative indexing)
+width[c(-2,-5)]
+```
+
+or the first and last elements
+
+```{r ex21yy, exercise = TRUE, exercise.setup="data2"}
+# Access first and last elements
+width[c(1,length(width))]
+```
+
+or elements with a value greater than 6. Indeed you can use an conditional statement in place of width > 6.
+
+```{r ex21zz, exercise = TRUE, exercise.setup="data2"}
+# Access elements greater than 6 
+width[width > 6]
+```
+
+If it is a character vector, you can access elements by name
+
+```{r ex21zzz, exercise = TRUE}
+# Create a vector
+names <- c("Alice", "Bob", "Carol", "Dave")
+# Access elements equal to specific values 
+names[names %in% c("Alice", "Carol")] 
+```
+
+You should by now have the gist. A vector is a data structure that holds an ordered set of elements of the same type (character, numeric or logical). Each element can be addressed by its position in the ordered set, or by applying some logical condition. To do this, we use square brackets.
+
+### Vector arithmetic {data-continue-text="Continue"}
+
+The normal rules of arithmetic apply to vectors in the sense that they apply to each element of the vector (note that it is not at all like vector arithmetic in the mathematical sense).
+
+```{r ex21r,  exercise = TRUE, exercise.setup = "data2"}
+width <- width + 10
+width
+```
+
+This will add 10 to each element of the vector. Similar actions occur with the other arithmetic operators. The functions `log()`, `exp()`, `sin()`, `cos()`, `tan()`, `sqrt()`, and so on, all have their usual meaning, and when applied to a vector, are applied to each value of the vector.
+
+Note that if you apply operations to vectors of the incorrect type (say, adding 10 to a logical vector), R may coerce objects to the required type and proceed regardless.
+
+
+```{r ex21r2,  exercise = TRUE, exercise.setup = "data2"}
+logical.vec <- as.vector(c(TRUE,FALSE,FALSE,TRUE,TRUE))
+class(logical.vec)
+logical.vec <- logical.vec + 10
+logical.vec
+class(logical.vec)
+```
+
+Feature or fault? Exercise caution.
+
+It is possible to include two vectors in calculations, in which case their values will be included in the equation as matched pairs. For example, if we have two vectors with the same number of values, length and width, then the assignment
+
+```{r ex21s,  exercise = TRUE, exercise.setup = "data2"}
+length <-  c(2,1,3,2,10)
+area <- length*width
+area
+```
+
+This will yield a new vector with the values calculated by multiplying the first value of length with the first value of width, the second value of length with the second value of width, and so on. Calculations involving missing values NA will yield missing values.
+
+The standard arithmetic operators apply, and include and include the usual addition (`+`), subtraction (`-`), division (`/`), multiplication (`*`) and exponentiation (`^`). 
+Working with vectors of differing sizes is difficult, and we probably should not go there.
+
+### Missing Values in Vectors {data-continue-text="Continue"}
+
+Missing values are represented by the special keyword NA.
+
+```{r ex21t,  exercise = TRUE, exercise.setup = "data2"}
+vec <- c(1, 2, NA, 4, 5)
+vec
+```
+
+
+```{r ex21u,  exercise = TRUE, exercise.setup = "data2"}
+# Check for missing values
+is.na(vec)
+```
+
+
+```{r ex21v,  exercise = TRUE, exercise.setup = "data2"}
+# Remove missing values
+vec2 <- vec[!is.na(vec)]
+vec2
+```
+
+On occasion, you may wish to initialize a vector to be populated during later computation. This can be done with
+
+```{r ex21i, exercise = TRUE}
+# Initializing an empty vector
+vec <- vector("logical", 20)
+vec[] <- NA # Explicitly set all to NA 
+vec 
+```
+
+### Useful Vector Functions {data-continue-text="Continue"}
+
+```{r eval = FALSE}
+numbers <- c(1, 5, 2, 2, 8, 1, 9, 3)
+length(numbers)    # Number of elements
+
+sum(numbers)       # Sum of all elements  
+
+mean(numbers)      # Average
+
+max(numbers)       # Maximum value
+
+min(numbers)       # Minimum value
+
+sort(numbers)      # Sort in ascending order
+
+unique(numbers)    # Remove duplicates
+```
+
+Try them in the code box below:
+
+```{r ex21w,  exercise = TRUE, exercise.setup = "data2"}
+numbers <- c(1, 5, 2, 2, 8, 1, 9, 3)
+length(numbers) # For example ....
+
+```
+
+```{r ex21w-hint}
+# copy and paste from above, one at a time or all at once.
+```
+
+For a more detailed account of working with vectors in R, refer to the 
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_vectors.htm"
+   target="_blank" rel="noopener">AI Guide to R vectors</a>
+
+
+### Factors {data-continue-text="Continue"}
+
+Factors are are special types of vectors whose values have labels associated with them. For example, we might create a character vector containing a combined sex and maturity code for animals caught on a particular day.
+
+```{r ex21aa,  exercise = TRUE, exercise.setup = "data2"}
+sexcode <- c("F", "F", "M", "J", "F", "M", "J", "J", "F")
+sexcode
+```
+
+Converting this to a factor causes the values, in alphabetical order, to be assigned numbers, and those numbers to be assigned labels. 
+
+```{r ex21bb,  exercise = TRUE, exercise.setup = "data2"}
+sexcode <- factor(sexcode)
+sexcode
+```
+
+A subtle difference to be sure. The numbers are hidden behind the scenes, and re-cast with their character values by R when they are printed out. That they are stored as numbers is evident when we print the object sexcode out without reference to its class.
+
+```{r ex21cc,  exercise = TRUE, exercise.setup = "data2"}
+unclass(factor(sexcode))
+```
+
+The subtle difference between a character vector and a factor will become evident in analyses that involve discrete factors.
+
+To convert a character factor to a character vector, use
+
+```{r ex21dd,  exercise = TRUE, exercise.setup = "data2"}
+sexcode <- as.character(sexcode)
+sexcode
+```
+
+
+To convert a numeric factor to a numeric vector, use
+
+```{r ex21ee,  exercise = TRUE, exercise.setup = "data2"}
+width <- as.numeric(as.character(width))
+width
+```
+
+For a more detailed account of working with factors in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Factors.htm"
+   target="_blank" rel="noopener">AI Guide to factors</a>.
+
+### Matrices {data-continue-text="Continue"}
+
+A matrix is a two-dimensional array of data arranged in rows and columns, where all elements must be of the same data type (all numbers, all text, or all logical values). 
+Creating Matrices
+
+Matrices are usually created by inputting data from a spreadsheet (refer section on I/O).
+On occasion, you may wish to initialize a matrix to be populated during later computation. This can be done with
+
+```{r ex21ff,  exercise = TRUE, exercise.setup = "data2"}
+# Initializing an empty Matrix
+mat <- matrix(NA, nrow = 3, ncol = 4) 
+mat
+```
+
+#### Adding row and column names to a matrix
+
+```{r ex21gg,  exercise = TRUE, exercise.setup = "data2"}
+# Add row names 
+rownames(mat) <- c("Row1", "Row2", "Row3") 
+# Add column names 
+colnames(mat) <- c("Col1", "Col2", "Col3", "Col4") 
+mat
+
+```
+
+#### Accessing Matrix Elements
+
+As with vectors, square brackets are used to access matrix elements. Note that the indexing begins with 1 (not zero as in many programming languages) and that the first index value refers to rows and the second to columns.
+
+```{r data3, echo = FALSE}
+mat <- matrix(1:12, nrow = 3, ncol = 4)
+```
+
+
+```{r eval = FALSE}
+# Create a matrix
+mat <- matrix(1:12, nrow = 3, ncol = 4)
+mat
+
+# Access element in row 2, column 3
+mat[2,3]
+
+# Get entire row 2 (leave column position empty)
+mat[2,]
+
+# Get entire column 3 (leave row position empty)
+mat[,3]
+
+# Get multiple rows
+mat[c(1,3),]
+
+# Get multiple columns
+mat[,c(2,4)]
+
+```
+
+Try accessing different elements using the example code above.
+
+```{r  ex21mm,  exercise = TRUE, exercise.setup = "data3"}
+mat <- matrix(1:12, nrow = 3, ncol = 4)
+mat[]
+```
+
+### Arrays {data-continue-text="Continue"}
+
+An array is a multi-dimensional data structure that can have more than two dimensions (unlike matrices which are strictly two-dimensional). Think of arrays as extending the concept of matrices to three, four, or more dimensions. All elements in an array must be of the same data type. Each element can be accessed by specifying its position in each dimension.
+
+For a more detailed account of working with matrices and arrays in R, refer to the 
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Matrices.htm"
+   target="_blank" rel="noopener">AI Guide to R Matrices</a> and the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Arrays.htm"
+   target="_blank" rel="noopener">AI Guide to R Arrays</a>
+
+### Dataframes {data-continue-text="Continue"}
+
+Dataframes are a central plank of data structures in R. Data frames organize data in rows and columns, just like Excel spreadsheets. Each row typically represents one entity and each column typically represents an attribute for that entity.
+
+Unlike matrices (which require all elements to be the same type), data frames can have different data types in different columns. You might have names as text in one column, weights as numbers in another, and test results as TRUE/FALSE values in a third column.
+
+#### Importing Data to a Dataframe
+
+Dataframes are usually created by inputting data from a text file or csv file. In this case, we will work with a simple text file called [Caretto.dat]{style="color:blue;"}. It contains measurements taken from the pig-nosed turtle *Carettochelys insculpta* from Pul Pul Billabong in Stage III of Kakadu National Park.
+
+Download the data first.
+
+```{r eval =FALSE}
+utils::download.file(url = "http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat", destfile = "Caretto.dat")
+```
+
+```{r eval =FALSE}
+df <- read.table("Caretto.dat", header=FALSE)
+```
+
+```{r datatab, echo = FALSE, cache=FALSE}
+df <- read.table("http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat")
+```
+This statement assigns the data in the raw datafile [Caretto.dat]{style="color:blue;"} to the dataframe [df]{style="color:blue;"}. 
+
+To examine the contents of the dataframe to see if it has been input correctly, simply type the dataframe name.
+
+```{r ex21nn,  exercise = TRUE, exercise.setup = "datatab"}
+df
+```
+
+Note the missing value for sex of the juveniles. Character variables are read in as factors, not as character vectors. In this case, the variable sex will be read in as a factor with the factor levels MALE and FEMALE.
+
+#### Adding column names to a dataframe
+
+Sometimes data are held in a file without variable names. We can read these data in and give the variables names subsequently.
+
+```{r ex21oo,  exercise = TRUE, exercise.setup = "datatab"}
+names(df) <- c("identity","sex","len","hw","wt")
+df
+```
+
+
+```{r datatab2, echo = FALSE, cache=FALSE}
+df <- read.table("http://georges.biomatix.org/storage/app/media/eBook1/Caretto.dat")
+names(df) <- c("identity","sex","len","hw","wt")
+
+```
+
+#### Accessing DataFrame elements
+
+DataFrame columns can be accessed as vectors using the `$` operator
+
+
+```{r ex21pp,  exercise = TRUE, exercise.setup = "datatab2"}
+df$sex
+```
+
+and specific values in a column using
+
+```{r ex21qq,  exercise = TRUE, exercise.setup = "datatab2"}
+df$sex[7]
+```
+
+The object `df$sex` is a vector, and all the usual operators for vectors apply. 
+
+#### Initializing a DataFrame
+
+Sometimes you need to initialize a DataFrame populated with missing values to be later accessed and populated with useful values.
+
+```{r we21_initialize_df,  exercise = TRUE}
+# Initialize a DataFrame with 10 rows, 4 columns 
+df <- data.frame(matrix(NA, nrow = 10, ncol = 4))
+names(df) <- c("temperature", "humidity", "pressure", "wind_speed")
+df 
+```
+
+#### Adding Rows and Columns to a Dataframe
+
+The simplest way to add a new variable (=column) to an existing dataframe is to use assignment.
+
+```{r we21_add_col,  exercise = TRUE}
+df <- data.frame(matrix(NA, nrow = 10, ncol = 4))
+df$newvar <- 1:10
+df
+```
+
+The length of the vector needs to be the same as the number of rows in the dataframe.
+
+Alternatively, `cbind()` which can be used to add vectors to a dataframe as new variables. These vectors need to be the same length as the variables already in the dataframe.
+
+The `rbind()` function can be used to join two like dataframes together, one to follow the other, or to bind a vector to a dataframe as an additional row. The vector needs to be of the same length as the number of columns in the dataframe, and to have data of appropriate type in each column. Character variables in a dataframe are often considered factors and their values as factor levels. Any character values added may need to have compatible factor levels.
+
+For a more detailed account of working with dataframes in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Data_Frames.htm"
+   target="_blank" rel="noopener">AI Guide to Dataframes</a>.
+
+### Lists {data-continue-text="Continue"}
+
+A list is R's most flexible data structure – it is an object that itself can hold a set different types of objects (vectors, matrices, data frames, even other lists) all together. Unlike vectors, matrices, or data frames that require elements to be the same type or have the same structure, lists can contain completely different kinds of objects with completely different types of data.
+
+The elements of a list are in a specific order and position, for easy reference. The elements can be named or un-named. Lists can contain other lists among their elements. The elements of a list do not have to be the same size.
+
+#### Creating a List
+
+```{r WE21_creating_lists, exercise=TRUE}
+# Create a scalar
+sample_size <- 50
+# Create a character vector
+genotype <- c("A/A", "A/B", "A/B", "B/B")
+# Create a numeric vector
+frequencies <- c(0.5, 0.2, 0.8, 0.1)
+# Create a date scalar
+experiment_date <- as.Date("2024-03-15") 
+# Create a logical scalar value
+significance <- TRUE
+# Create a matrix
+snps <- matrix(0:2, nrow = 2, ncol = 3)
+# Create a list
+exp_results <- list(n=sample_size, genotype=genotype, 
+                    frequencies=frequencies,
+                    date=experiment_date,
+                    sig=significance,
+                    snps=snps)
+exp_results
+
+```
+
+#### Accessing List Elements
+
+List elements can be accessed with a double square bracket [[ ]]. For example, to pull down the second element in the list,genotype, into a vector, use
+
+```{r ex21ss,  exercise = TRUE, exercise.setup = "WE21_creating_lists"}
+vec <- exp_results[[2]]
+vec
+```
+
+or alternatively
+
+```{r ex21ss2,  exercise = TRUE, exercise.setup = "WE21_creating_lists"}
+vec <- exp_results$genotype
+vec
+```
+
+We will see later that lists are particularly valuable in passing multiple objects back from an R function.
+
+#### Initializing a list
+Sometimes you will need to initialize a list before populating it, such as in a for loop.
+
+```{r ex21tt,  exercise = TRUE, exercise.setup = "WE21_creating_lists"}
+sample_list <- list()
+class(sample_list)
+```
+
+
+#### Adding new elements to a list
+You can add new elements to an existing list by assignment.
+
+```{r ex21uu,  exercise = TRUE, exercise.setup = "WE21_creating_lists"}
+# Add a new object called weights
+weights <- c(3.5, 5.2, 7.8, 4.1, 6.7)
+exp_results[["wt"]] <- weights
+exp_results
+```
+
+For a more detailed account of working with lists in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Lists.htm"
+   target="_blank" rel="noopener">AI Guide to Lists in R</a>.
+
+### How R Handles Missing Values {data-continue-text="Continue"}
+
+We have learned that the keyword NA is recognised by R as a missing value. Some R commands take into account missing values, such as summary(), while others do not, such as mean().
+Do not use the string "NA" to represent missing data in your program statements. Use the keyword NA. So an appropriate assignment of the fourth value of the vector weight to missing is
+
+```{r ex21sss, exercise = TRUE}
+weights <- c(3.5, 5.2, 7.8, 4.1, 6.7)
+weights[4] <- NA
+weights
+```
+	
+and not
+	
+```{r exsss2, exercise = TRUE}
+weights <- c(3.5, 5.2, 7.8, 4.1, 6.7)
+weights[4] <- "NA"
+weights
+```
+
+as this will attempt to assign the text string "NA" to element 4 in the numeric vector, coercing the whole vector to character (not the intended result).
+
+The function `is.na()` is used to determine which values of a variable are missing and which have data. For example,
+
+```{r}
+weights <- c(3.5, 5.2, 7.8, NA, 6.7)
+is.na(weights)
+```
+
+Many R functions have an option to specify whether or not to exclude missing values from computations, for example
+
+```{r}
+weights <- c(3.5, 5.2, 7.8, NA, 6.7)
+mean(weights,na.rm=TRUE)
+```
+
+### Winding up {data-continue-text="Next Worked Example"}
+
+You have now finished Worked Example 2-1 so now move to the next worked example on Input/Output.
+
+## Worked Example 2-2: I/O {data-progressive=TRUE}
+
+A core skill in scientific computing is the ability to import experimental data into R and export results for reporting, collaboration, or downstream analysis. R supports a wide range of data formats commonly used in laboratories, field studies, and bioinformatics pipelines. In this worked example, we illustrate standard approaches for both input (reading data) and output (writing data), using small, reproducible examples.
+
+### Input: Reading data into R {data-continue-text="Continue"}
+
+There are several common methods for loading data into R, each suited for different data formats and sources. below are the most widely used approaches. The object that receives the data is typically a dataframe.
+
+#### Reading a CSV File
+
+CSV Files are the most common format for scientific data exchange. They comprise rows with the values to be assigned to each column separated by commas. 
+
+Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv").
+
+Forgotten the path to your working directory? You need to type `getwd()` in the console of your RStudio session. 
+
+The `read.csv()` function is the standard method for reading in csv files. Try this in your RStudio console also.
+
+```{r eval=FALSE}
+# Loading Tympanocryptis metadata as csv
+metadata <- read.csv("./Tympo_ind_metadata.csv")
+```
+
+```{r datainput, echo = FALSE, cache=FALSE}
+metadata <- read.csv("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv")
+```
+
+The `read.csv()` family of functions offers important parameters for scientific data: `na.strings` to specify how missing values are coded, `stringsAsFactors` to control text handling, and `skip` to ignore header information common in instrument output files. Access help for more information on options by typing the folowing command in your RStudio console.
+
+```{r eval=FALSE}
+?read.csv
+```
+
+Having read the data in, examine the first 10 records.
+
+```{r metadata, exercise=TRUE, exercise.setup="datainput"}
+metadata[1:10,]
+```
+
+#### Reading an Excel File
+
+We will not demonstrate it here, but you can also read in Excel files. Excel Files require the readxl package, which is particularly useful for laboratory data often stored in spreadsheets:
+
+```{r eval = FALSE}
+# Loading experimental results as xlsx
+library(readxl)
+gene_expression <- read_excel("microarray_results.xlsx", 
+                              sheet = "normalized_data")
+```
+
+#### Reading Text Files
+
+Again, we will not demonstrate it here, but tab-delimited or Space-delimited Files are common in bioinformatics and can be read with read.table():
+
+```{r eval=FALSE}
+# Loading experimental results as tab-delimited text
+annotations <- read.table("gene_annotations.txt", 
+                          header = TRUE,
+                          sep = "\t")
+# Loading experimental results as space-delimited text
+annotations <- read.table("gene_annotations.txt", 
+                          header = TRUE, 
+                          sep = " ")
+```
+
+
+### Output: Writing Data From R {data-continue-text="Continue"}
+
+Once data have been analysed, cleaned, or transformed, exporting results for figures, reports or collaboration is straightforward.
+
+#### Writing a CSV File
+
+CSV is the preferred exchange format for sharing processed datasets.
+
+```{r eval = FALSE}
+# Exporting summary results
+write.csv(metadata, file = "output.csv", row.names = FALSE)
+```
+
+```{r writecsv, echo = FALSE, eval = FALSE}
+output_path <- file.path(tempdir(), "output.csv")
+write.csv(metadata, file = output_path, row.names = FALSE)
+
+if(file.exists(output_path)) {
+  cat("File successfully written to:", output_path, "\n")
+  cat("File size:", file.size(output_path), "bytes\n")
+} else {
+  cat("ERROR: File was not written!\n")
+}
+```
+
+Setting `row.names = FALSE` avoids an unwanted first column in the resulting file.
+
+#### Writing a Tab-Delimited File
+
+We will not demonstrate it here, but tab delimited files can be useful when CSV commas would interfere with certain software (e.g. phylogenetics tools, HPC workflows).
+
+```{r eval = FALSE}
+write.table(gene_expression,
+            file = "normalized_expression.tsv",
+            sep = "\t",
+            quote = FALSE,
+            row.names = FALSE)
+```
+
+`quote = FALSE` avoids wrapping character columns in quotes, which some tools cannot read.
+
+### Winding up {data-continue-text="Next Worked Example"}
+
+You have now finished Worked Example 2-2 so move to the next worked example on Controlling Workflow with IF and FOR statements and apply family functions.
+
+## Worked Example 2-3: Controlling Workflow {data-progressive=TRUE}
+
+Once the data are read into a dataframe, we can proceed to analyse them with the fundamental tools provided as part of the R base library or with the tools from any additional libraries we have chosen to load.
+
+#### Keywords
+
+R has remarkably few reserved keywords, but use of these as object or user-defined function names must be avoided. They include
+
+```{r eval = FALSE}
+TRUE FALSE NULL NA NaN Inf 
+if else repeat while for in next break function pi
+```
+
+It is not necessary, but wise to avoid using function names defined in loaded packages as object names or as the names of your own functions. Some people avoid the confusion by using uppercase names for all of their objects and personal functions.
+
+#### Assignment
+
+The most common R statement used in programming is the assignment statement. For example, assignment statements can be used to create new variables, for example:
+	
+```{r logging, exercise=TRUE}
+length <-  c(2,1,3,2,10)
+lglength <- log10(length)
+length
+lglength
+```
+	
+#### The Data
+
+If you have not retained the df dataframe from Worked Example 2-2, recreate it.
+
+Download into your working directory, a csv file containing metadata for individuals to be used in later analyses. It is called [Tympo_ind_metadata.csv]("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv").
+
+Forgotten the path to your working directory? You need to type `getwd()` in the console of your RStudio session. 
+
+The `read.csv()` function is the standard method for reading in csv files. Try this in your RStudio console also. This time let's call the dataframe df.
+
+```{r eval=FALSE}
+# Loading Tympanocryptis metadata as csv
+df <- read.csv("./Tympo_ind_metadata.csv")
+```
+
+```{r datainput2, echo = FALSE, cache=FALSE}
+df <- read.csv("http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv")
+```
+
+Identify the fields in the dataframe `metadata`
+
+```{r, names, exercise=TRUE, exercise.setup="datainput2"}
+names(df)
+```
+
+### More on Assignment {data-continue-text="Continue"}
+
+There is a Snout-Vent Length (svl) column and a weight column, which provides the opportunity to relate the two. Length and weight are unlikely to be linearly related because weight increases in proportion to volume. So we might expect a power relationship between the two.
+
+
+$$
+\text{weight} = A \times \text{svl}^B
+$$
+
+
+To linearize this, we need to take the logarithms of both sides
+
+$$
+\log(\text{weight}) = \log(A \times \text{svl}^B) = \log(A) + B \times \log(\text{svl})
+$$
+
+
+Here is where the assignment statements come in.
+
+```{r tmp, eval=FALSE}
+df$logwt <- log(df$weight)
+df$logsvl <- log(df$svl)
+```
+
+These two assignment statements will take the contents of vector weight, take the logarithms and place them in a new variable in the dataframe called `logwt`. Similarly with `svl`.
+ 
+```{r showlogwt, exercise=TRUE, exercise.setup="datainput2"}
+df$logwt <- log(df$weight)
+df$logsvl <- log(df$svl)
+df[1:10,]
+```
+
+There are lots of lessons here. First, to refer to a column in a dataframe, you need to precede the variable name with the dataframe name and a `$`. Otherwise R will not know where to look for it. Second, R does operations on vectors, item by item. No need to loop through the vector to apply the operation to each element. Finally, the assignment characters `<-` tell R to take the value of the calculation on the right-hand side and place it in the object on the left-hand side.
+
+So that is what is meant by assignment in R.
+
+### Branching {data-continue-text="Continue"}
+
+As with any programming language, R has statements that allow for branching, that is, executing statements provided some condition is met. In fact, R has an abundance of approaches to this.
+
+#### IF Statements
+
+The simplest form of conditional branching is the IF statement.
+
+```{r if1, exercise=TRUE, exercise.setup="datainput2"}
+df1row <- df[3,]
+if (df1row$sex == "Male"){
+		df1row$bd_condition <- 0.00140*df1row$svl^2.91 - df1row$weight
+}
+df1row
+```
+
+or cover all bases with an IF-THEN-ELSE construct:
+
+```{r if2, exercise=TRUE, exercise.setup="datainput2"}
+df1row <- df[12,]
+	if (df1row$sex == "Male"){
+		df1row$bd_condition <- 0.00140*df1row$svl^2.91 - df1row$weight
+	} else if(df1row$sex == "Female"){
+		df1row$bd_condition <- 0.00135*df1row$svl^2.85 - df1row$weight
+	} else {
+		df1row$bd_condition <- NA
+	}
+df1row
+```
+
+Acceptable Boolean operators are shown in the table below. Note the `==` operator as opposed to a single `=` sign. Other Boolean operators are
+
+
+<div style="text-align:center;">
+
+| **Operator** | **Description**            |
+|:------------:|:---------------------------|
+| ==           | Equal to                   |
+| !=           | Not equal to               |
+| <            | Less than                  |
+| <=           | Less than or equal to      |
+| >            | Greater than               |
+| >=           | Greater than or equal to   |
+| &            | AND (element-wise)         |
+| &&           | AND (first element only)   |
+| \|           | OR (element-wise)          |
+| \|\|         | OR (first element only)    |
+| !            | NOT                        |
+
+</div>
+
+
+The conditions that dictate the branch can be quite complicated Boolean logic, using the operators shown in the table above, provided it delivers `TRUE` or `FALSE`.
+
+Of course, the body of the IF and IF-THEN-ELSE statements can be as extensive as needed, and extend over many R statements. And you can put IF statements inside 
+IF statements.
+
+#### Referencing for Conditional Selection
+
+A second approach is to access the dataframe as an array df[i,j], putting conditions on the index variables i or j.
+
+```{r if3, exercise=TRUE, exercise.setup="datainput2"}
+df[df$sex=="Female",]
+```
+
+will print out only those rows for which sex=="Female". The conditional statement can be quite complex
+
+```{r if4, exercise=TRUE, exercise.setup="datainput2"}
+df[df$sex=="Female" & df$svl>40.0  & complete.cases(df$svl),]
+```
+
+We can select only those observations for which an indicator variable takes on particular values, 
+
+```{r if5, exercise=TRUE, exercise.setup="datainput2"}
+df[is.element(df$id, c('AA24187','AA24261','AA24349')),]
+```
+
+
+and of course, these restrictive reference to the data can be used inside other functions,
+
+```{r if55, exercise=TRUE, exercise.setup="datainput2"}
+summary(df[is.element(df$id, c('AA24187','AA24261','AA24349')),])
+```
+
+A third approach is to split the data into subsets for further analysis
+
+```{r if6, exercise=TRUE, exercise.setup="datainput2"}
+males <- subset(df, sex == "Male")
+females <- subset(df, sex == "Female")
+head(males)
+head(females)
+```
+
+A fourth approach is to apply functions such as `summary()` separately to each sex with the `tapply()` function
+
+```{r if7, exercise=TRUE, exercise.setup="datainput2"}
+# values, categories, function
+tapply(df$svl, df$sex, summary)
+```
+
+There are still other approaches using the `by()` function or the by option within functions. It will take time to become familiar with these different options and when they are each most efficiently applied.
+
+You should now have a good taste of how to use conditional branching in R.
+
+### Iteration {data-continue-text="Continue"}
+
+As with any programming language, R has statements that allow for iteration, that is, repeating blocks of code. 
+
+#### FOR loops
+
+The simplest form of iteration is using one of the DO-WHILE, DO-UNTIL OR DO-FOR constructs in R, for example
+
+```{r rep1, exercise=TRUE, exercise.setup="datainput2"}
+# Initialize body condition
+df$body_condition <- NA
+# Start iteration
+for (i in seq_len(nrow(df))) {
+  svl    <- df$svl[i]
+  weight <- df$weight[i]
+  sex <- df$sex[i]
+  
+  	if (!is.na(sex) && sex == "Male"){
+		df$body_condition[i] <- 0.00140*svl^2.91 - weight
+	}else if(!is.na(sex) && sex == "Female"){
+		df$body_condition[i] <- 0.00135*svl^2.85 - weight
+	}else {
+		df$body_condition[i] <- NA
+	}# Terminate the IF - ELSE IF - ELSE statement
+} # Terminate the FOR loop
+df[1:10,c('id', 'pop', 'sex', 'svl', 'weight', 'body_condition')]
+```
+
+
+FOR loops, while they have commonality with many programming languages and so are familiar, can be inefficient in R unless carefully constructed. A number of other R-specific options are available built around the `apply()` family of functions.
+
+### Apply class of functions {data-continue-text="Continue"}
+
+The `apply()` family consists of functions that allow you to apply operations across different dimensions of your data without writing explicit loops. These functions are essential for efficient data analysis in R.
+
+#### apply
+
+The `apply()` function applies a specified function across rows or columns of a matrix or array.
+
+```{r datainput3, echo = FALSE, cache=FALSE}
+mat <- matrix(c(23.1, 25.4, 22.8, 24.2, 26.1,
+                21.3, 23.7, 20.9, 22.5, 24.3,
+                25.6, 27.2, 24.8, 26.1, 28.4,
+                22.7, 24.9, 21.5, 23.3, 25.8),
+       nrow = 4, ncol = 5,
+       dimnames = list(c("Station_A", "Station_B",    
+       "Station_C", "Station_D"), 
+       c("Day1", "Day2", "Day3", "Day4", "Day5")))
+```
+
+```{r mat, exercise=TRUE}
+# Set up a matrix, temperatures, 4 weather stations, 5 days
+mat <- matrix(c(23.1, 25.4, 22.8, 24.2, 26.1,
+                21.3, 23.7, 20.9, 22.5, 24.3,
+                25.6, 27.2, 24.8, 26.1, 28.4,
+                22.7, 24.9, 21.5, 23.3, 25.8),
+       nrow = 4, ncol = 5,
+       dimnames = list(c("Station_A", "Station_B",    
+       "Station_C", "Station_D"), 
+       c("Day1", "Day2", "Day3", "Day4", "Day5")))
+mat
+
+```
+
+```{r mat2, exercise=TRUE, exercise.setup="datainput3"}
+# Average temperature for each station (across columns)
+station_avg <- apply(mat,1,mean) #1 means across cols
+station_avg
+```
+
+```{r mat3, exercise=TRUE, exercise.setup="datainput3"}
+# Daily averages across all stations (across rows)
+daily_averages <- apply(mat,2,mean) #2 means across rows
+daily_averages
+```
+
+```{r mat4, exercise=TRUE, exercise.setup="datainput3"}
+# Find maximum temperature recorded at each station
+max_temps <- apply(mat,1,max)
+max_temps
+```
+
+#### lapply
+
+The `lapply()` function applies a specified function to each element of a list or vector and returns a list.
+
+```{r datainput4, echo = FALSE, cache=FALSE}
+trial_data <- list(
+  trial_1 = c(12.3, 11.8, 12.7, 11.9, 12.1),
+  trial_2 = c(13.1, 12.9, 13.3, 12.8, 13.0),
+  trial_3 = c(11.7, 11.2, 11.9, 11.5, 11.8),
+  trial_4 = c(12.8, 12.4, 12.9, 12.6, 12.7)
+)
+trial_means <- lapply(trial_data, mean)
+```
+
+```{r list1, exercise=TRUE, exercise.setup="datainput4"}
+# List of experimental measurements from different trials
+trial_data <- list(
+  trial_1 = c(12.3, 11.8, 12.7, 11.9, 12.1),
+  trial_2 = c(13.1, 12.9, 13.3, 12.8, 13.0),
+  trial_3 = c(11.7, 11.2, 11.9, 11.5, 11.8),
+  trial_4 = c(12.8, 12.4, 12.9, 12.6, 12.7)
+)
+trial_data
+```
+
+```{r list2, exercise=TRUE, exercise.setup="datainput4"}
+# Calculate mean for each trial
+trial_means <- lapply(trial_data, mean)
+trial_means
+```
+
+```{r list3, exercise=TRUE, exercise.setup="datainput4"}
+# Convert the list of values to a vector
+vec_means <- unlist(trial_means)
+vec_means
+
+```
+
+For a more detailed account of working with **apply** family functions in R, refer to the <a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_apply_Family%20_of%20_Functions.htm"
+   target="_blank" rel="noopener">AI Guide to **apply** family functions in R</a>.
+
+### Winding up {data-continue-text="Next Worked Example"}
+
+You have now finished Worked Example 2-3 so move to the next worked example on Functions.
+
+
+## Worked Example 2-4:Functions {data-progressive=TRUE}
+
+You will realize by now that most of the commands used in R are functions of one sort or another. The are essentially another way of iterating code in the R script workflow.
+
+Functions in R are not functions in the mathematical sense, but rather are the equivalent to subroutines or subprograms in other languages. A function is a discrete block of code that takes data, manipulates it and returns the results of those manipulations. 
+
+#### Built in Functions
+
+There are a very many built in functions in R, and if you load various packages of relevance to your work, each will come with its own suite of functions. As an example of a built in function, the function sort() can be used to re-order a data vector.
+
+```{r rmp, exercise=TRUE}
+weight <- c(10.4, 5.6, 3.1, 6.4, 21.7)
+sort(weight)
+```
+
+
+Information on a particular function can be obtained by typing a question mark followed by the function name in the RStudio console, for example,
+
+```{r eval=FALSE}
+?sort
+```
+
+#### User-defined Functions
+
+Functions are extremely useful elements of R programming. You can create your own, modify those already available in R, or collect your functions into a library and make them available to others. 
+
+There are many functions built into the base library of R. A full listing of them can be obtained via the web-base help page (select Help from the Console Menu Bar), under the link entitled "Packages". 
+
+You can define your own functions very easily. To define a function called echo, we might use
+
+```{r rmp2, exercise=TRUE}
+echo <- function(x) {print(x)}
+
+echo # Display the function, recall that functions are just objects
+```
+
+This is using the function statement to define a new function that takes a single argument x. The value of x is then passed to the statements that make up the body of the function, inside the curly brackets. In this case the body of the function is a single statement, print(x). We then assign the function to the object echo, which can be subsequently called on as follows
+
+```{r rmd3, exercise=TRUE}
+# Define the function
+echo <- function(x) {print(x)}
+#Run the function
+echo("Hello Folks!")
+```
+
+It is possible to put any number of statements inside the curly brackets, and so build quite sophisticated functions.
+
+Your own functions can be used in the lapply() function to apply it to the elements of a list or vector. This gives them great utility.
+
+For a more detailed account of working with functions in R, refer to the 
+<a href="http://georges.biomatix.org/storage/app/media/eBook1/AI_Guide_to_R_Functions.htm"
+   target="_blank" rel="noopener">AI Guide to R functions</a>
+
+### Winding up {data-continue-text="Next Topic"}
+
+Got the hang of R? That is great, but remember, you do not need to be proficient in R to use dartRverse. 
+
+**You should now return to Chapter 2 and review the outcomes under the heading *Where have we come?* and *Where have we not gone?* Then move on to the eBook Chapter 3.**
+
+## Chapter 3
+
+### {data-continue-text="Continue to Worked Example"}
+
+The objective of this chapter is to introduce you to the manner in which dartRverse stores genotype data and associated metadata and how in input and export data into those datastructures from dartRverse or other data sources (e.g. vcf). 
+
+This is the first substantive Chapter on dartRverse, so Worked Examples should be undertaken within the RStudio environment, and in particular, the RStudio Editor. This will require you to progressively transfer the code from the Tutorial Window to your RStudio Editor to execute it. 
+
+By adhering to this workflow, you are undertaking the worked examples in the same manner as you would in undertaking your own analyses. This also provides the flexibility for you to branch out and follow any ideas or other analyses that might strike you as interesting on the way. You may wish to concurrently run the code on your own datasets which is an extremely productive activity. By using the RStudio Editor, you can also save your complete analysis for future use and pot-boiling.
+
+## Worked Example 3-1: Data Structures and I/O {data-progressive=TRUE}
+
+In this worked example we will be drawing upon data for the Canberra grassland earless dragon introduced in some detail in eBook Chapter 3. You have your RStudio eBook Project, you should have loaded the dartRverse package, have set the global verbosity to 3 so as to receive full details in the output, and you should have downloaded all the data into your working directory using:
+
+```{r eval= FALSE}
+source("http://georges.biomatix.org/storage/app/media/eBook1/eBook_data_download.txt")
+```
+
+### Raw Data
+
+Two files should be located in your RStudio working directory.
+
+- [Report_Dtym25-13579_SNP.csv](http://georges.biomatix.org/storage/app/media/eBook1/Report_DTym25-13579_SNP.csv) : This is the set of SNP data for Canberra Grassland Earless Dragons in 2-row format as would be supplied by DArT.
+
+- [Tympo_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Tympo_ind_metadata.csv) : This file contains the additional individual metadata -- attributes assigned to each individual.
+
+Open the file [Report_Dtym25-13579_SNP.csv]{style="color:blue;"} in Excel. There are some columns with locus metadata and some first rows with individual metadata. There are two rows for each SNP, scoring presence (1) or absence (0). These files are typically very large, and excel can cause issues with them. So once you have had a look, **exit without saving**.
+
+Now open the metadata file [Tympo_ind_metadata.csv]{style="color:blue;"}. This individual metadata file has two compulsory fields [id]{style="color:blue;"} and [pop]{style="color:blue;"}, and some optional fields [lat]{style="color:blue;"}, [lon]{style="color:blue;"}, [sex]{style="color:blue;"}, [age]{style="color:blue;"}, [svl]{style="color:blue;"} and [weight]{style="color:blue;"} associated with each individual. You can add whatever attributes you like to this metadata file.
+
+Again, once you are finished having a look, **exit without saving**.
+
+The next steps are to read the data into dartRverse, verify that the contents are as expected. 
+
+### Read the data into dartRverse
+Read the data from [Report_Dtym25-13579_SNP.csv]{style="color:blue;"} into a dartR object using [gl.read.dart()]{style="color:blue;"}. Be sure to apply the individual metrics using the [ind.metafile]{style="color:blue;"} parameter. This script will take a little time.
+
+```{r we31_read_code1, eval=FALSE, echo=TRUE}
+gl <- gl.read.dart("./Report_DTym25-13579_SNP.csv",
+                   ind.metafile = "./Tympo_ind_metadata.csv")
+```
+
+You can see the log of progress in the Console. The function [gl.read.dart()]{style="color:blue;"} does a lot of checks, determines if the data is 2Row or 1Row format, skips rows and columns until it hits the SNP data, checks if essential locus metrics have been provided, adds in the ind.metrics fields, then checks for overall compliance with a dartR genlight object.
+
+These diagnostics are most useful when something goes wrong and you should read through it carefully. You should check that the correct number of individuals and loci have been read in at the very least.
+
+### Interrogate the dartR genlight object
+
+To examine the attributes of the genlight object, a good place to start is to simply type in the name of the genlight object.
+
+
+```{r we31_display_gl, eval=FALSE, echo=TRUE}
+gl
+```
+
+Again, run this command in the RStudio Editor and refer to the Console.
+
+This tells us the size of the genlight object, the number of genotypes (individuals) and the number of SNPs (loci). It identifies important "slots" such as [@pop]{style="color:blue;"}, [@other\$loc.metrics]{style="color:blue;"} which contains the locus metrics like [AlleleID]{style="color:blue;"}, [AvgPIC]{style="color:blue;"}, [RepAvg]{style="color:blue;"} etc, and [@other\$ind.metrics]{style="color:blue;"} which contains the individual metrics like [id]{style="color:blue;"}, [pop]{style="color:blue;"}, [sex]{style="color:blue;"}, [age]{style="color:blue;"} etc. Note also that the ind.metrics contains the service and plate location of the individual sample.
+
+All useful stuff for later analyses.
+
+Adegenet accessors are useful for interrogating specific values.
+
+```{r we31_accessors, eval=FALSE, echo=TRUE}
+nInd(gl)
+nLoc(gl)
+nPop(gl)
+```
+
+and you can check the population and individual names
+
+```{r we31_names, eval=FALSE, echo=TRUE}
+popNames(gl)
+indNames(gl)[1:10]# Only first 10 entries shown
+```
+
+We saw that we had a number of individual metrics when we examined the contents of the [gl]{style="color:blue;"} object by simply typing its name. We can remind ourselves of these:
+
+```{r we31_indmetrics1, eval=FALSE, echo=TRUE}
+names(gl@other$ind.metrics)
+```
+
+Examine the contents of the individual metrics, in this case the first 10 values of the attribute [sex]{style="color:blue;"}:
+
+```{r we31_indmetrics2, eval=FALSE, echo=TRUE}
+# Only first 10 entries shown
+gl@other$ind.metrics$sex[1:10]
+```
+
+Try this on some other individual metrics.
+
+```{r we31_hint, eval=FALSE, echo=TRUE}
+# you could try any of the metrics found in ind.metrics. 
+# What about age:
+gl@other$ind.metrics$age[1:12] # first twelve ages
+```
+
+When you have finished examining the individual metrics, examine the SNP genotypes themselves. Use:
+
+```{r we31_matrix, eval=FALSE, echo=TRUE}
+# Only the first 7 individuals for the first 8 loci are shown
+mat <- as.matrix(gl)
+mat[1:7,1:8]
+```
+
+Note whether you see all acceptable values, that is, 0, 1 or 2 and NA. If you see more values 1 than 2, why do you think this might be so?
+
+### Save
+
+Next, save the data in binary format for posterity. 
+
+```{r we31_save, eval=FALSE, echo=TRUE}
+# Save to compact binary form
+gl.save(gl,"Tympo_SNP_raw.Rdata")
+```
+
+It is much faster to load the data from a compact binary file than by running [gl.read.dart()]{style="color:blue;"} again.
+
+```{r we31_load, eval=FALSE, echo=TRUE}
+# To read it back in
+gl.new <- gl.load("Tympo_SNP_raw.Rdata")
+```
+
+### Clean up {data-continue-text="Next Exercise"}
+We have created files that we will not use again, so they should be removed from the workspace. Tidy up your workspace by removing the dartR genlight object [gl]{style="color:blue;"} and [gl.new]{style="color:blue;"}, assuming you do not want to access them again in raw form.
+
+```{r we31_cleanup, eval=FALSE, echo=TRUE}
+rm(gl.new)
+
+```
+
+That brings us to the end of the Worked Example 3-1. You are now a pro.
+
+Let's see if that is true, that you are now a pro, by putting what you have learned in to practice with the Chapter 3 Exercises. 
+
+## Exercise 3-1: Reading in 1Row Format 
+
+### {data-continue-text="Next Exercise"}
+
+- Open the file [sample_data_1Row.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_data_1Row.csv) in Excel. This is a set of SNP data for *Emydura*, a freshwater turtle,  in 1-row format as would be supplied by DArT.
+
+- Refer to the documentation on the [DArT web page](https://www.diversityarrays.com/) to understand the scoring of SNPs in the 1-row format.
+
+- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
+
+
+-	Create a new script in the RStudio Editor Window and add the lines
+
+```{r}
+# EXERCISE 3-1: 1-Row Format
+# Input data from sample_data_1Row.csv, 
+#  associate with sample_metadata.csv
+```
+
+-	Add a statement to read the SNP data in as a dartR genlight object called [gl.1row]{style="color:blue;"}. Check that the data was read in without error.
+
+-	Add a statement to examine a summary of the contents of [gl.1row]{style="color:blue;"}. How many loci and how many individuals. How many populations are the individuals organised under? Missing values?
+
+-	Use the [as.matrix()]{style="color:blue;"} function to display the genotypes for the first 5 individuals and the first 10 loci. Do the data look as they should for SNP data, that is, scored 0, 1 and 2 (with possible [NA]{style="color:blue;"} values)?
+
+## Exercise 3-2: Reading in SilicoDArT Data
+
+- Open the file [sample_data_SilicoDArT.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_data_SilicoDArT.csv) in Excel. This is a set of marker presence/absence data for *Cherax destructor* provided in SilicoDArT format by DArT.
+
+- Refer to the documentation on the [DArT web page](https://www.diversityarrays.com/) to understand the scoring of the data in the SilicoDArT format.
+
+- Now examine the individual metadata in the file [sample_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/sample_metadata.csv). Note the two mandatory columns [id]{style="color:blue;"} and [pop]{style="color:blue;"}.
+
+
+-	Create a new script in the RStudio Editor Window and add the lines
+
+```{r}
+ # EXERCISE 3-2: SilicoDArT data
+ # Input data from sample_data_SilicoDArT.csv, 
+ #  associate with sample_metadata.csv
+```
+
+-	Add a statement to read the Silico data in as a dartR genlight object called [gs]{style="color:blue;"}. Check that the data read in without error (remember that there are different functions to load in SNP data and Silico data).
+
+-	Add a statement to examine a summary of the contents of [gs]{style="color:blue;"}. How many loci and how many individuals. How many populations are the individuals organised under?
+
+-	Use the [as.matrix()]{style="color:blue;"} function to display the genotypes for the first 5 individuals and the first 10 loci. Do the data look as they should for SNP data, that is, scored 0 and 1 for absence and presence (with possible [NA]{style="color:blue;"} values)?
+
+### Where to next {data-continue-text="Next Topic"}
+
+These exercises bring you to the end of Chapter 3, the first substantive Chapter on dartRverse. 
+
+**You should now return to the eBook Chapter 3 and review what you have learned against the** *Where have we come* **section of Chapter 3. Then move on the Chapter 4. Well done!**
+
+
+## Chapter 4, Session 1
+
+### {data-continue-text="Continue to Worked Example"}
+
+In this session, you will learn how to interrogate a genlight object to discover how many individuals have been genotyped, how many loci have been scored, how many scores are missing ([NA]{style="color:blue;"}) and other attributes. You will also be introduced to the dartRverse Report functions used to assess the quality of the SNP or SilicoDArT data. This is a prelude to possible remedial action via filtering (Chapter 5).
+
+Before starting the Worked Examples and Exercises that follow, be sure to have read the theory in eBook Chapter 4, Session 1.
+
+## Worked Example 4-1: Basic Attributes and QC {data-progressive=TRUE}
+
+In this worked example we will again be drawing upon data for the Canberra grassland earless dragon *Tympanocryptis lineata* introduced in some detail in eBook Chapter 3. 
+
+You have your RStudio eBook Project established, and you have set the global verbosity to 3 so as to receive full details in the output. You have already saved the raw data for *Tympanocrypis* as a binary file for easy retrieval.
+
+### Read the data into dartRverse {data-continue-text="Continue"}
+
+Recall that in Worked Example 3-1, the data were saved in binary form as Tympo_SNP_raw.Rdata. We can now load it back into a dartR object using [gl.load()]{style="color:blue;"}. 
+
+```{r we4_data, eval=FALSE, echo=TRUE}
+gl <- gl.load("Tympo_SNP_raw.Rdata")
+```
+
+Note how quick that was compared to reading the raw data from scratch using [gl.read.dart()]{style="color:blue;"}.
+
+### Examine Dataset Attributes {data-continue-text="Continue"}
+
+Quickly examine the contents of your dartR genlight object by simply typing its name. This will give you the attributes associated with the object. Then lets engage in a little revision of material covered in Worked Example 3-1.
+
+
+```{r we41_gl, eval=FALSE, echo=TRUE}
+gl
+```
+
+The output from this simple command is quite voluminous. Note that if it is a SNP dataset, the ploidy of each individual will be reported as (range 2-2). If it is a SilicoDArT dataset, the ploidy will be reported as (range: 1-1)
+
+Displayed are the number of genotypes (individuals/specimens/samples), the size of the genlight object, and the number of missing values. The ploidy value should be 2-2 for SNP data for a diploid organism (dartR does not have support for polyploid organisms), so if it is something else, you have a problem with your data. SilicoDArT presence absence data has the ploidy set to 1-1.
+
+Slots containing important information are listed, such as [@position]{style="color:blue;"}, which lists the position of the SNPs in the sequence tags (referenced from 0 as position 1). The [@other]{style="color:blue;"} slot is particularly important, because it holds the `loc.metrics` from DArT and your [ind.metrics]{style="color:blue;"}. 
+
+If any of the optional content slots indicated above are missing, consider running
+
+```{r we41b, eval=FALSE, echo=TRUE}
+gl <- gl.compliance.check(gl)
+```
+
+This will render the dartR genlight object compliant with dartRverse. This is particularly important if you have generated your data outside the DArT environment.
+
+To obtain a basic summary for a dartR genlight object, use
+
+```{r we41_report_basics, eval=FALSE, echo=TRUE}
+gl.report.basics(gl)
+```
+
+This is a very comprehensive summary of the dataset.
+
+### Examine metadata {data-continue-text="Continue"}
+
+To access metadata directly you can use commands of the form
+
+```{r we41_examine_locus+metric, eval=FALSE, echo=TRUE}
+cr <- gl@other$loc.metrics$CallRate
+hist(cr) # This is a base R statement
+
+```
+
+Remind yourself of the variables in the metadata using 
+
+```{r we41_locmetric_names, eval=FALSE, echo=TRUE}
+names(gl@other$loc.metrics)
+```
+
+and
+
+```{r we41_indmetric_names, eval=FALSE, echo=TRUE}
+names(gl@other$ind.metrics)
+```
+
+Play around a little more, examining different individual and locus metrics that interest you.
+
+You can also interrogate the dartR genlight object using adegenet accessors, that is, commands built into the *adegenet* package. Give each of these a try.
+
+```{r we41_accessors, eval = FALSE}
+nLoc(gl) 
+locNames(gl)
+nInd(gl)
+indNames(gl)
+nPop(gl)
+popNames(gl)
+pop(gl)
+```
+
+Note the distinction between [popNames(gl)]{style="color:blue;"} and [pop(gl)]{style="color:blue;"}. The two are related by [popNames(gl) == unique(pop(gl))]{style="color:blue;"}.
+
+### Extract the SNP data to a matrix {data-continue-text="Continue"}
+
+To convert your dartR genlight object to a conventional matrix, use
+
+```{r we41_matrix, eval=FALSE, echo=TRUE}
+m <- as.matrix(gl)
+m[1:5,1:8]
+```
+
+These are all useful for interrogating your genlight object, and of course can be used in your r scripts to subset and manipulate your data.
+
+### Core report functions {data-continue-text="Continue"}
+
+Now try the core report functions. In each case, think about what threshold you might define to discard loci or individuals with poor quality (QC control). 
+
+*Important Note*: Do not assign the output of the report function to your genlight object or you will potentially overwrite your dartR genlight object.
+
+This **Call Rate** function summarises CallRate values for loci.  A locus can fail to call for an individual because the sequence tag was missed during sequencing (if a service with low read depth) or because of a mutation at one or both of the restriction enzyme sites or internal to the sequence tag. Matched with [gl.filter.callrate()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.callrate]{style="color:blue;"} and then craft some statements
+
+```{r we41_report_callrate1, eval=FALSE, echo=TRUE}
+gl.report.callrate(gl, method="loc")
+```
+
+The Call Rate function with [method='ind']{style="color:blue;"} summarises Call Rate values for individuals. 
+
+```{r we41_report_callrate2, eval=FALSE, echo=TRUE}
+gl.report.callrate(gl, method="ind")
+```
+
+The **reproducibility** function below summarises [repAvg]{style="color:blue;"} (SNP) or [reproducibility]{style="color:blue;"} (SilicoDArT) values for each locus. DArT runs technical replicates that allow for an assessment of the reliability of the scoring for each locus. 100% means that identical results were obtained for both technical replicates.
+
+```{r we41_report_reproducibility, eval=FALSE, echo=TRUE}
+gl.report.reproducibility(gl)
+```
+
+The **read depth** function reports an estimate of average read depth for each locus. Adequate read depth is desirable for analyses requiring accurate calls of heterozygotes in particular. Matched with [gl.filter.rdepth()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.rdepth]{style="color:blue;"} and to use the function, type
+
+```{r we41_report_rdepth, eval=FALSE, echo=TRUE}
+gl.report.rdepth(gl)
+```
+
+Linkage is an important consideration for many analyses. Fortunately, SNPs on separate sequence tags can be considered to assort independently because of the sparse nature of their sampling across the genome. However, if two SNPs occur in a non-recombining block of sequence, they will be co-inherited. This occurs for SNPs that reside in the non-recombining region of the sex chromosomes. They are referred to as sex-linked. The sex linkage report function identifies putative sex-linked SNP loci. Matched with [gl.filter.sexlinked()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.sexlinked]{style="color:blue;"}
+
+```{r we41_report_sexlinked, eval=FALSE, echo=TRUE}
+gl.report.sexlinked(gl, system = 'xy')
+```
+
+Sequence tags can often contain more than one SNP, potentially up to 7 SNPs in a sequence tag of 69 bp. Alleles at these SNP loci are potentially co-inherited and so are linked. The **secondaries** function identifies and counts the number of SNP loci in each sequence tag. It has the added feature of modelling the frequency distribution of SNP locus counts and estimating the zero class, that is, the number of (unreported) sequence tags that are invariant. This can be useful for correcting some estimates, such as heterozygosity. Matched to [gl.filter.secondaries()]{style="color:blue;"}. For further help, type [?gl.report.secondaries]{style="color:blue;"}.
+
+```{r we41_report_secondaries, eval=FALSE, echo=TRUE}
+gl.report.secondaries(gl)
+```
+
+The **monomorphs** report function provides a count of polymorphic and monomorphic loci. Matched with [gl.filter.monomorphs()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.monomorphs]{style="color:blue;"}. Many functions also have a [mono.rm]{style="color:blue;"} option which, if [TRUE]{style="color:blue;"}, filters monomorphic loci.
+
+```{r we41_report_monomorphs, eval=FALSE, echo=TRUE}
+gl.report.monomorphs(gl)
+```
+
+### Other report functions  {data-continue-text="Continue"}
+
+**Hamming Distance** is a measure of how similar two sequence tags are. There is a risk that two very similar sequence tags are from the same locus distinguished only by the rare read error. Sequence tags produced by DArT have already been filtered by Hamming Distance (typically threshold 3 bp) but you might choose to be more stringent. This report function will give you an indication of whether you have an issue to resolve or not. Matched with [gl.filter.hamming()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.hamming]{style="color:blue;"}.
+
+```{r we41_report_hamming, eval=FALSE, echo=TRUE}
+gl.report.hamming(gl) 
+```
+
+**Tag lengths** (each bearing one or more SNPs) can vary substantially, typically from 20bp to 69 bp in the case of DArT data. The tag length script reports a frequency tabulation of sequence tag lengths. Matched with [gl.filter.taglength()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.taglength]{style="color:blue;"}.
+
+```{r we41_rreport_taglength, eval=FALSE, echo=TRUE}
+gl.report.taglength(gl)
+```
+
+The **overshoot** report deals with a rare anomaly. Occasionally the adaptor sequence has close sequence homology with part of the sequence tag. When this occurs part of the sequence tag is eliminated and sometimes this carries the SNP with it. This function reports loci for which the SNP has been trimmed along with the adaptor sequence. Matched with [gl.filter.overshoot()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.overshoot]{style="color:blue;"}.
+
+```{r we41_report_oershoot, eval=FALSE, echo=TRUE}
+gl.report.overshoot(gl)
+```
+
+### Where are we at? {data-continue-text="Exercises"}
+
+At this point you should have a good grasp on how to interrogate your dataset using the dartRverse report functions. 
+
+Let's see how good a grasp you have, by putting what you have learned in to practice in a problem solving context with the Chapter 4 Exercises associated with Session 4-1. 
+
+## Exercise 4-1: SNP Data QC 
+
+### {data-continue-text="Continue"}
+
+- Load [eBook_Exercise_4-1.Rdata]{style="color:blue;"} to genlight object [gl]{style="color:blue;"}.
+
+- How many loci are represented in this dataset?
+
+- How many individuals have been scored?
+
+- Are the individuals assigned to populations and if so, how many populations? What are the names of the populations?
+
+- Examine the genotypes for the first 5 individuals for the first 10 loci.
+
+- How are missing values represented? What proportion of scores are missing?
+
+- Examine the structure of the dataset in a smear plot. What can you say about allelic dropout? Are there any aberrant patterns across loci? Across individuals?
+
+- Run a series of reports to assess the quality of the SNP calls. Generate reports for reproducibility, rdepth, secondaries, overshoot, taglength, monomorphs and other locus metadata in [gl]{style="color:blue;"}.
+
+- Redo these activities with your own data.
+
+
+## Exercise 4-2: SilicoDArT Data QC 
+
+### {data-continue-text="Return to eBook, Chapter 4, <br> Session 2"}
+
+- Try this for yourself using a sample SilicoDart dataset. 
+
+- First load the genlight object [eBook_Exercise_4-2.Rdata]{style="color:blue;"} to a working genlight object [gs]{style="color:blue;"}.
+
+- How many loci are represented in this dataset?
+
+- How many individuals have been scored?
+
+- Are the individuals assigned to populations and if so, how many populations? What are the names of the populations?
+
+- Examine the genotypes for the first 5 individuals for the first 10 loci.
+
+- How are missing values represented? What proportion of scores are missing?
+
+- Examine the extent of failed calls within the dataset, first with a smearplot, then with the appropriate report functions.
+
+- If you have a SilicoDArT dataset of your own, try what you have learned on that dataset.
+
+- All of the report functions for SNP data operate in a similar manner with SilicoDArT data, though not an identical manner.
+
+
+## Chapter 4, Session 2
+
+### {data-continue-text="Continue to Worked Example"}
+
+In this session, you will learn how to manipulate data in a genlight object. This will include altering or correcting some individual or population labels, removing some individuals included in error or that are perhaps duplicated, and recalculating the locus metrics to include locus metrics not provided by DArT.
+
+You may also need to amalgamate individuals from different sampling sites into single populations, delete populations (say the outgroup taxa for an analysis directed at the ingroup taxa alone), or to examine statistics for one population on its own.
+
+Before starting the Worked Examples and Exercises that follow, be sure to have read the theory in eBook Chapter 4, Session 2.
+
+## Worked Example 4-2: Manipulating data {data-progressive=TRUE}
+
+###
+
+This worked example will take you by the hand and lead you through the analyses for dropping populations, merging and renaming populations, reassigning populations, and subsampling populations. We will work again with the real dataset on the Canberra grassland earless dragon introduced in Chapter 3. 
+
+If you have moved directly from Worked Example 4-1, you will have already loaded the data into genlight object [gl]{style="color:blue;"}. If you have been away and are just coming back, you should load the data in again using
+
+```{r eval = FALSE}
+gl <- gl.load("Tympo_SNP_raw.Rdata")
+```
+
+Check to see what populations object [gl]{style="color:blue;"} has defined.
+
+```{r we42_popnames, eval=FALSE, echo=TRUE}
+popNames(gl)
+```
+
+Now check the sample sizes.
+
+```{r we42_pop, eval=FALSE, echo=TRUE}
+table(pop(gl))
+```
+
+### Dropping Populations {data-continue-text="Continue"}
+
+We make the decision to delete the unknown population. After deleting we check that the desired changes are made using [popNames()]{style="color:blue;"}:
+
+```{r we42_drop_pop1, eval=FALSE, echo=TRUE}
+gl.new <- gl.drop.pop(gl, pop.list=c('Unknown'))
+popNames(gl.new)
+```
+
+The output confirms that the unknown population has been deleted, but also issues a warning that monomorphic loci may have arisen with the deletion of the two populations. If this is undesirable, we can run the above command with the parameter [mono.rm=TRUE]{style="color:blue;"}. 
+
+```{r we42_drop_pop2, eval=FALSE, echo=TRUE}
+gl.new <- gl.drop.pop(gl, pop.list=c('Unknown'),
+                      mono.rm = TRUE)
+```
+
+One can also remove monomorphic loci using 
+
+```{r we42_monomorphs, eval=FALSE, echo=TRUE}
+gl.new <- gl.filter.monomorphs(gl)
+```
+
+How many monomorphic loci were detected, and if any, deleted. 
+See also [gl.keep.pop()]{style="color:blue;"} which allows you to specify populations to keep rather than populations to delete.
+
+### Merging and Renaming Populations {data-continue-text="Continue"}
+
+Two populations from South Canberra (Royalla, Googong) can be merged into one population (NSW population):
+
+```{r we42_merge, eval=FALSE, echo=TRUE}
+gl.new <- gl.merge.pop(gl, old=c("Royalla", "Googong"),
+                       new="NSW")
+popNames(gl.new)
+```
+
+Populations can also be renamed.
+
+```{r we42_rename1, eval=FALSE, echo=TRUE}
+gl.new <- gl.rename.pop(gl,old="Kowen",new="Queanbeyan")
+popNames(gl.new)
+```
+
+These functions do not change the underlying [ind.metrics]{style="color:blue;"}. In case we want to change population assignment momentarily, let's save the new population assignments as a column in [ind.metrics]{style="color:blue;"}. Use [head()]{style="color:blue;"} to check it has been saved as a new column. 
+
+```{r we42_rename2, eval=FALSE, echo=TRUE}
+gl.new <- gl.rename.pop(gl,old="Kowen",new="Queanbeyan")
+gl.new@other$ind.metrics$pop2 <- gl.new@pop
+head(gl.new@other$ind.metrics)
+```
+
+### Reassigning a population using an ind metric {data-continue-text="Continue"}
+
+The year can be temporarily assigned as the [pop]{style="color:blue;"} variable using:
+
+```{r we42_reassign, eval=FALSE, echo=TRUE}
+gl.new <- gl.reassign.pop(gl, as.pop="year")
+popNames(gl.new) #confirm change
+```
+
+This will replace the existing population assignments with values of the individual metric year of capture, shown when we check the [popNames()]{style="color:blue;"}. 
+
+Some functions allow the temporary assignment of an individual metric as the population attribute. For example:
+
+```{r we42_drop_pop3, eval=FALSE, echo=TRUE}
+gl.new <- gl.drop.pop(gl, pop.list="2006",
+                          as.pop="year")
+table(gl.new@other$ind.metrics$year) # confirm change
+```
+
+Confirm that the metrics for [year]{style="color:blue;"} no longer contains [2006]{style="color:blue;"}. 
+
+Then, if you are working in your own console, delete [gl.new]{style="color:blue;"} as it is no longer needed.
+
+```{r eval=FALSE}
+rm(gl.new)
+```
+
+### Bulk population reassignment or deletion (Recode Tables) {data-continue-text="Continue"}
+
+To bulk reassign populations or delete populations, a recode table must first be constructed. 
+
+```{r, eval=FALSE}
+gl.make.recode.pop(gl, 
+                   out.recode.file = "recode_pop_table.csv",
+                   outpath = getwd())
+```
+
+Open the file [my_recode_pop_table.csv]{style="color:blue;"} and edit the second column to make some new population labels to replace the old, and to delete some populations. Save the csv file, then apply it to create a new modified dartR genlight object.
+
+
+```{r eval = FALSE}
+gl.new <- gl.recode.pop(gl, 
+                        pop.recode = "recode_pop_table.csv")
+```
+
+
+```{r eval=FALSE, echo=FALSE}
+# gl.new <- gl.drop.pop(gl, pop.list = c(2017, 2024))
+# gl.new <- gl.merge.pop(gl.new, old = c(2011, 2012), new = c('2011/2012'))
+gl.new <- gl
+```
+
+
+```{r eval = FALSE}
+popNames(gl)
+popNames(gl.new)
+```
+
+Delete [gl.new]{style="color:blue;"} as it is no longer needed.
+
+```{r eval=FALSE}
+rm(gl.new)
+```
+
+### Deleting Individuals {data-continue-text="Continue"}
+
+Deleting individuals is essentially done in the same way as deleting populations.
+
+```{r we42_delete_ind1, eval=FALSE, echo=TRUE}
+indNames(gl)
+```
+
+Three individuals have been misclassified and their provenance is uncertain. We need to remove these. Again, monomorphic loci can arise with the deletion of populations or individuals, so we apply the [mono.rm=TRUE]{style="color:blue;"} parameter.
+
+```{r we42_delete_ind2, eval=FALSE, echo=TRUE}
+gl <- gl.drop.ind(gl,c("AA24149", "AA24002", "AA24001"), 
+                  mono.rm=TRUE)
+```
+
+Note that had the three individuals been the sole individuals in a population, then that population assignment would have been removed also. In this case, all populations were retained.
+
+See also [gl.keep.ind()]{style="color:blue;"} which allows you to specify individuals to keep rather than individuals to delete.
+
+### Subsampling Individuals {data-continue-text="Continue"}
+
+To subsample individuals in a genlight object containing SNP or SilicoDArT data, use:
+
+```{r we42n, eval=FALSE, echo=TRUE}
+gl2 <- gl.subsample.ind(gl, n=50, by.pop=FALSE, replace=FALSE)
+gl2
+```
+
+To subsample individuals within populations, use the [by.pop]{style="color:blue;"} parameter set to [TRUE]{style="color:blue;"}.
+
+```{r we42o, eval=FALSE, echo=TRUE}
+gl2 <- gl.subsample.ind(gl, n=2, by.pop=TRUE, replace=FALSE)
+gl2
+```
+
+Setting the replacement parameter to [TRUE]{style="color:blue;"} will subsample with replacement, so an individual could conceivably be included twice in the new dataset.
+
+### Reassigning individuals {data-continue-text="Continue"}
+
+All individuals are typically assigned to populations when the data are input. This information is in the *ind.metadata.csv* file used on input using [gl.read.dart()]{style="color:blue;"}. Sometimes it is necessary to reassign individuals to existing populations or to assign them to new populations.
+
+```{r we42q, eval=FALSE, echo=TRUE}
+gl <- gl.reassign.ind(gl, 
+                      ind.list=c("AA24117", "AA24155", 
+                                 "AA24250", "AA24545"),
+                      new.pop="Kowen")
+```
+
+### Working with Loci {data-continue-text="Continue"}
+
+There are functions to delete and keep loci that work in a similar way to the companion functions for individuals and populations. They are rarely used, but might be useful for removing a few loci that are regarded as recalcitrant in ways that are not picked up by the conventional filtering (see Chapter 5).
+
+To subsample loci in a genlight object containing SNP or SilicoDArT data, use: 
+
+```{r we42r, eval=FALSE, echo=TRUE}
+gl2 <- gl.subsample.loc(gl, n=1000, replace = FALSE)
+gl2
+```
+
+Note that the default for the [replace]{style="color:blue;"} parameter is [FALSE]{style="color:blue;"} for [gl.subsample.ind()]{style="color:blue;"} and [TRUE]{style="color:blue;"} for [gl.subsample.loc()]{style="color:blue;"}. Best to be explicit.
+
+Subsampling loci might be of use for bootstrapping ([replace=TRUE]{style="color:blue;"}) or when trying out a complex script with a smaller subset of data ([replace=FALSE]{style="color:blue;"}). 
+
+### Tidy up the workspace {data-continue-text="Continue to Exercises"}
+
+We have created files that we will not use again, so they should be removed from the workspace. Check the list under the tab Environment, and use [rm()]{style="color:blue;"} to remove objects that will not be of further use, such as [gl2]{style="color:blue;"}.
+
+We are done with the worked examples in Chapter 4, Session 2. Time now to try some more Exercises.
+
+## Exercise 4-3: Using Recode Tables
+
+### {data-continue-text="Next Exercise"}
+
+-	Copying [testset.gl]{style="color:blue;"} to a working object [gl]{style="color:blue;"}. List the populations and the number of populations.
+
+-	Use [gl.make.recode.pop()]{style="color:blue;"} to create a draft recode table with a specified name (make sure it is a [.csv]{style="color:blue;"} file). Edit this in excel to make changes to the population assignments. Make one population assignment Delete.
+
+-	Apply the recode table to genlight object [gl]{style="color:blue;"}.
+
+-	List the populations and the number of populations. Have the anticipated changes been made?
+
+-	Now try editing the population assignments with [gl.edit.recode.pop()]{style="color:blue;"}. List the populations and the number of populations. Have the anticipated changes been made?
+
+-	If you deleted a population, be sure to filter out monomorphic loci and to recalculate the locus metadata.
+
+## Exercise 4-4: Platypus
+
+### {data-continue-text="Continue"}
+
+#### Attributes of the genlight object 
+
+Use a combination of {adegenet} accessors and [gl.report.basics]{style="color:blue;"} to answer the following questions. 
+
+- How many loci are represented in genlight object [platypus.gl]{style="color:blue;"}?
+
+- How many individuals have been scored?
+
+- Are the individuals assigned to populations and if so, how many populations? What are the names of the populations? How many individuals are in each population?
+
+#### The data.
+
+- Examine the genotypes for the first 5 individuals for the first 10 loci.
+
+- How are missing values are represented? What percentage of scores are missing?
+
+- Plot a histogram of the SNP scores. Why is the count of homozygous reference greater than the count of homozygous alternate?
+
+- Examine the structure of the dataset in a smear plot. What can you say about allelic dropout?
+
+#### QC reports.
+
+- Generate a report on callrate for the platypus dataset [platypus.gl]{style="color:blue;"}. What do you conclude? Are the data 'clean' and ready for analysis?
+
+- Generate reports on reproducibility, monomorphs, secondaries and read depth. Consider these reports along with that for callrate and devise a strategy for pre-analysis filtering to yield a reliable dataset. What thresholds would you use to increase the reliability of the data.
+
+#### Subsetting the Playtypus data.
+
+- List the population names for the platypus dataset?
+
+- Create a new genlight object tenterfield.gl which has data only for the population labelled tenterfield.  Note that there are two ways of doing this.
+
+- Combine the populations [SEVERN_ABOVE]{style="color:blue;"} and [SEVERN_BELOW]{style="color:blue;"} into a single population in a new genlight object [platy2.gl]{style="color:blue;"}.
+
+- Create a new genlight object [sexes.gl]{style="color:blue;"} where the populations are defined by sex [M]{style="color:blue;"} or [F]{style="color:blue;"}.
+
+- Delete individuals [U_TENT_10]{style="color:blue;"} and [U_TENT_14]{style="color:blue;"}.
+
+#### Your own data
+
+Try some of these activities with your own data.
+
+### Winding up
+
+**You should now return to the eBook Chapter 4 and review what you have learned against the** *Where have we come* **section of Chapter 4. Then move on the Chapter 5. Well done.**
+
+
+## Chapter 5
+
+### {data-continue-text="Continue to Worked Example"}
+
+This Chapter will introduce you to the options available for filtering your data based on an assessment of quality using the report functions introduced in Chapter 3. Filtering is an important aspect of ensuring that you are working with reliable SNP and SilicoDArT scores.
+
+Filtering is  challenging topic, because if you over-filter an ascertainment bias can be introduced, and the order in which you apply filters often depends on the type of downstream analysis planned.
+
+Before starting the Worked Examples and Exercises that follow, be sure to have read the theory in eBook Chapter 5, and to pay particular attention to the section on nuances of filtering (Session 2).
+
+## Worked Example 5-1: Filtering {data-progressive=TRUE}
+
+This worked example will take you by the hand and lead you through the analyses for filtering loci and individuals based on specified thresholds. Those thresholds are typically determined using the report functions introduced in Chapter 3, though often the default values will suffice. We will work again with the real dataset on the Canberra grassland earless dragon introduced in Chapter 3. 
+
+In Worked Example 3-1, you would have saved the data in binary form in [Tympo_SNP_raw.Rdata]{style="color:blue;"}. This file should be in your project directory Book_Project.
+
+Do not forget to set global verbosity to 3, [gl.set.verbosity(3)]{style="color:blue;"}.
+
+Below we step through the analysis with you. Please copy the code, paste it or type it in the Editor Window and submit it as you go along. The output should match that provided below. Feel free to wander and explore yourself along the way.
+
+### Load the Dataset
+
+First, load in the dataset using [gl.load()]{style="color:blue;"}.
+
+```{r eval = FALSE}
+gl <- gl.load("Tympo_SNP_raw.Rdata")
+```
+
+Quickly examine the contents of your genlight object. 
+
+```{r exx51, eval=FALSE}
+nInd(gl)
+nLoc(gl)
+nPop(gl)
+table(pop(gl))
+```
+
+If all is well, proceed to filtering. Note that the order in which filtering is undertaken is complex, and depends very much on the context and the analyses to follow. Refer to the section on nuances in Chapter 5 of the eBook. The order given in what follows is arbitrary.
+
+### Filtering Loci on Call Rate
+
+A filter for Call Rate can be applied to loci and to individuals. When filtering on loci, only those for which the associated SNP is called in at least a specified proportion will be retained. When filtering on individuals, only those individuals for which a specified percentage of loci are scored for a SNP polymorphism will be retained. 
+
+Recall that Call Rate for SNPs can arise from two sources. The first source is where a missing value arises because the sequence tag bearing the target SNP cannot be amplified – there has been a mutation at one or both of the restriction sites. The second source of missing values is where the read depth is insufficient to make a reliable call on the SNP. Either way, the SNP is not called and is recorded as [NA]{style="color:blue;"}. 
+
+For presence-absence data (i.e. SilicoDArT), the sequence tag is recorded as having been amplified (presence) or not (absence). A missing value arises when it is not possible to determine if the sequence tag has been amplified or not, so in that sense it is true missing data.
+
+A first step in filtering on Call Rate is to examine the distribution of Call Rates across loci. We use:
+
+```{r we31a, eval=FALSE}
+gl.report.callrate(gl)
+```
+
+Here you can see that the call rate for most loci is close to 100%, but that there is a tail of loci for which the call rate is exceptionally poor. In this case, we might choose to filter out loci for which the call rate is less than 95% (0.95). 
+
+
+```{r we31b, eval=FALSE}
+gl <- gl.filter.callrate(gl, threshold=0.95)
+```
+
+can see from the text that filtering at a threshold of 0.95 will result in the loss of 3,355 loci, or 64% of loci. Substantial data loss, but for most purposes, this level of filtering of poorly called loci is likely to be satisfactory. The results of the filtering are shown as a before-after plot.
+
+### Filtering Individuals on Call Rate
+
+A second way of filtering on Call Rate is to remove individuals that have sequenced particularly poorly. This may occur if the associated samples are degraded in comparison with other samples. We again first report the Call Rate, this time for individuals.
+
+```{r we31c, eval=FALSE}
+gl.report.callrate(gl, method='ind')
+```
+
+The output includes a list of populations and the call rate averaged across individuals, and a list of the top worst individuals in terms of their call rate. This will allow you to make a reasoned judgement on the impact of filtering out individuals.
+
+It appears there are a number of individuals with poor call rates. This could arise because of poor sample quality or because of particular attributes of the genomes of those individuals (true null alleles). The judgement needed here is to determine how valuable these individuals are to the analyses to follow, and to decide a threshold that does not eliminate key individuals or populations. 
+
+The graph tells the story. In the absence of information to the contrary, a threshold of 95% (0.95) would seem appropriate for filtering individuals on Call Rate.
+
+We execute the filter with a threshold of 0.95.
+
+```{r we31d, eval=FALSE}
+gl <- gl.filter.callrate(gl, threshold=0.95, method='ind')
+```
+
+This statement filters out individuals with a Call Rate across loci of less than 95%. It conveniently lists the individuals that have been removed and the populations to which they belong so you can assess the impact of the filtering. 
+
+The number of individuals is reduced from 617 to 597. Note that, in removing individuals, it is very likely that the remaining individuals will have some loci that are monomorphic, those for which the polymorphisms were represented only in the discarded individuals. If monomophic loci are undesirable, they can be removed by adding [mono.rm=TRUE]{style="color:blue;"} to the [gl.filter.callrate()]{style="color:blue;"} parameters.
+
+We will address the monomorphic loci later with the filter [gl.filter.monomorphs()]{style="color:blue;"}.
+
+### Recalculating locus metadata after filtering
+
+Remember, the locus metrics are no longer valid if individuals or populations are deleted from the dataset. For example, if you filter out a population for which the individuals have particularly bad call rates, then the call rate parameter held in the locus metrics will no longer be accurate. It will need to be recalculated. This is true of many of the locus metrics.
+
+So, after filtering your data, it is wise to recalculate the locus metrics with
+
+```{r we31e, eval=FALSE}
+gl <- gl.recalc.metrics(gl) 
+```
+
+Similarly, when filtering has resulted in removal of some individuals or populations, variation at several loci may be lost. Some loci may even be scored as missing across all individuals. You may wish to remove these monomorphic loci from your dataset with
+
+```{r we31f, eval=FALSE}
+gl <- gl.filter.monomorphs(gl)
+```
+
+Note that many functions have a [mono.rm]{style="color:blue;"} and [recalc]{style="color:blue;"} parameters that allow you to remove monomorphic loci or recalculate metrics on the fly.
+
+It is not a fatal error to forget to recalculate the locus metrics because dartRverse scripts will detect if they have not been recalculated and rectify this before they a particular locus metric is needed. 
+
+
+### Filter Loci on Secondaries
+
+Sequence tags can contain more than one callable SNP marker. Because of their close proximity, these multiple SNPs within a single sequence tag (referred to in dartRverse as 'secondaries' are likely to be strongly linked (inherited together). This is problematic for many analyses, so one might wish to filter out the multiple SNPs to leave only one per sequence tag.
+
+DArT include multiple SNPS in a single sequence tag each as separate records in the data provided with your report. The decision becomes, which SNP to retain, and which of the linked SNPs to discard. One strategy is to leave the filtering of secondaries until last, so that you are considering only those secondaries that have survived the earlier filtering on call rate, reproducibility and read depth. You can then choose one from the surviving secondaries at random ([method='random']{style="color:blue;"}) or based on comparisons of reproducibility ([RepAvg]{style="color:blue;"}) and polymorphism information content ([PIC]{style="color:blue;"}) ([method='best']{style="color:blue;"}). The call is:
+
+```{r we31g, eval=FALSE}
+gl.report.secondaries(gl)
+```
+
+Note that the estimate of the zero class involves an iterative process that does not always converge to a satisfactory solution for lamda. In this case it did. Note also that the estimate of the zero class can have a very substantial error associated with it, especially if the count for class 0 exceeds the count for the class 1. Useful, but not infallible.
+
+Having examined the report, filtering out the secondaries is done using
+
+```{r we31h, eval=FALSE}
+gl <- gl.filter.secondaries(gl,method="best")
+```
+
+### Filtering Loci on Reproducibility
+
+In DArTseq genotyping, technical replicates are repeated genotyping reactions of the same biological sample processed independently through the SNP-calling pipeline. They are not biological replicates (e.g. two tissues from the same animal), but instead multiple library preparations or sequencing lanes drawn from the same DNA extract.
+
+Because they represent the same true genotype, any differences between replicates directly reflect technical error –  including library preparation variability, sequencing error, or calling error. Technical replicates thus provide an empirical way to quantify genotyping consistency across these potential error sources.
+A high reproducibility score (typically > 95 to 99%) indicates that a SNP is consistently called across independent runs and is therefore reliable. A reproducibility score of 100% means that identical results were obtained for both technical replicates. One might be tempted to filter on a reproducibility of 1 (=100%). However, this is considered overkill and likely to introduce a potential ascertainment bias.
+
+```{r we31i, eval=FALSE}
+gl.report.reproducibility(gl)
+```
+
+Overall, the reproducibility for the earless dragon dataset is good. There is a tail to the left though, and one might filter them out with a threshold of 0.995 (default 0.99).
+
+```{r we31j, eval=FALSE}
+gl <- gl.filter.reproducibility(gl, threshold=0.995)
+```
+
+We lost 740 loci, down from 1660 to 920.
+
+### Filtering Sex-linked Loci
+
+Linkage is an important consideration for many analyses. Fortunately, SNPs on separate sequence tags can be considered to assort independently because of the sparse nature of their sampling across the genome. However, if two SNPs occur in a non-recombining block of sequence, they will be co-inherited. 
+
+Species with sex chromosomes typically have these organised into a non-recombining segment and a pseudo-autosomal segment that is subject to homogenization by recombination. The sequence in the non-recombining region typically carries a set of genes that are tightly linked. The region can be small, in which case it does not present a problem, or so large as to encompass almost the whole sex chromosome, in which case some SNP loci will be affected. They are referred to as sex-linked.
+
+The sex linkage report function identifies putative sex-linked SNP loci. Matched with [gl.filter.sexlinked()]{style="color:blue;"} (refer Chapter 5). For further help, type [?gl.report.sexlinked]{style="color:blue;"}.
+
+```{r we31k, eval=FALSE}
+gl.report.sexlinked(gl, system = 'xy')
+```
+
+As you can see we do not have many sex-linked loci, however usually testing for sex-linked markers should come first, as other filters can filter them out.
+
+
+```{r we31l, eval=FALSE}
+gl <- gl.filter.sexlinked(gl, system = 'xy')
+```
+
+### Filtering Loci on Read Depth
+
+Average read depth is a critical consideration when working with DArTseq SNP genotypes because DArT’s SNP-calling pipeline is fundamentally read-count driven, and read depth directly determines the confidence, accuracy and reproducibility of each SNP call. The reliability of a SNP call is particularly important in analyses that require correct assignment of heterozygous states.
+
+Low read depth can inflate sampling error in allele frequency estimates, heterozygosity estimates, inbreeding coefficients and FST estimates.
+
+Low read depth can be especially problematic in DArT’s SilicoDArT loci where read depth can influence the probability of detecting locus' presence vs absence.
+
+So it requires some attention.
+
+```{r we31m, eval=FALSE}
+gl.report.rdepth(gl)
+```
+
+The read depth estimates are pretty good, with all above 5*x*. If we had more loci, we might consider pushing this up to 8x or 10x.
+Let us apply the filter at 6*x*.
+
+```{r we31n, eval=FALSE}
+gl <- gl.filter.rdepth(gl, lower =6)
+
+```
+
+That removes another 2 loci. Note that we did not filter using an upper limit (default=1000). One might be tempted because exceptionally high read depths are an indication of stacking of orthologous sequence. However, DArT recommend against this as the data has already been through their pipelines to eliminate loci influenced by the presence of orthologues.
+
+### Filtering Loci on Overshoot
+
+The overshoot report deals with a rare anomaly. Occasionally the adaptor sequence has close sequence homology with part of the sequence tag. When this occurs part of the sequence tag is eliminated and sometimes this carries the SNP with it. This function reports loci for which the SNP has been trimmed along with the adaptor sequence.
+
+This is not a major problem for most analyses because the SNP call is valid. Where it might be a problem is if you are concatenating the sequence tags for a phylogenetic analysis. You will be including sequence tags with no SNP variation.
+
+```{r we31oo, eval=FALSE}
+gl.report.overshoot(gl)
+```
+
+In this case, no loci have SNPs that have been eliminated during adapter trimming. Had we found some, we could have filtered them out with:
+
+```{r we31o, eval = FALSE}
+gl <- gl.filter.overshoot(gl)
+```
+
+### Filtering Loci on Tag Length
+Tag lengths (each bearing one or more SNPs) can vary substantially, typically from 20 bp to 69 bp in the case of DArT data. The tag length scripts report a frequency tabulation of sequence tag lengths and provide the option to filter these. There could be a reason why you would wish to only include SNPs from sequence tags equal to 69 for example.
+
+```{r we31p, eval=FALSE}
+gl.report.taglength(gl)
+```
+
+Quite a spread of tag lengths, which is to be expected.
+
+Let us filter out all but those sequence tags and their associated SNPs where the sequence tag length is less than the maximum of 69.
+
+```{r we31q, eval=FALSE}
+gl <- gl.filter.taglength(gl, lower=69)
+```
+
+Of the 912 loci we started with, we lose 637 bringing us down to 275 loci.
+
+### Filtering Loci on Hamming Distance
+
+Hamming distance is a measure of sequence similarity between sequence tags. If two sequence tags (69 bp) differ by only a couple of base pairs then suspicion is aroused as to whether they have arisen by sequencing error. Diversity Arrays Technology have probably already filtered on a Hamming distance of 3 bp. Rarely you might want to go further, and the gl.filter.hamming function gives you this option. This function may be useful if you have generated your SNP data outside the DArT environment where no pre-filtering on sequence similarity has been undertaken.
+
+Run a report first to inform the choice of threshold. Note that this is computationally intensive. Maybe time for a coffee.
+
+```{r hamming, eval=FALSE}
+gl.report.hamming(gl)
+```
+
+The report suggests that an appropriate threshold for the Hamming Distance might be [0.3]{style="color:blue;"}, so lets run with that.
+
+```{r hamfilt, eval=FALSE}
+gl <- gl.filter.hamming(gl, threshold=0.3)
+```
+
+We lose another 2 loci.
+
+### Crafting a Filtering Strategy {data-continue-text="Continue to Exercises"}
+
+
+We have now gone through the operations of some of the filtering functions available in dartRverse (not covered yet are [gl.filter.maf()]{style="color:blue;"}, [gl.filter.hwe()]{style="color:blue;"}, and [gl.filter.ld()]{style="color:blue;"}, to name a few). Which ones you use, depends upon the question at hand and the analyses you propose. Seldom would one apply all of these filters.
+
+Order matters. It would have occurred to you that it would matter which order you filtered call rate, on locus first then individual second. This depends upon which you regard as more valuable to subsequent analyses, loci or individuals. Do you filter on secondaries early or late? What about sex linked markers.
+
+Below is a filtering strategy that might be used for a generic spatial genetics question. Let us try that out on the raw data again, then save our filtered dataset to use in Chapter 6.
+
+```{r eval = FALSE}
+gl <- gl.load("Tympo_SNP_raw.Rdata") # 5276 loci
+
+```
+
+Have a look at the quality of the raw data using a smearplot – loci across the X axis, individuals up the Y axis.
+
+
+```{r 51a, eval=FALSE}
+gl.smearplot(gl)
+```
+
+
+Not particularly high quality, as you would expect of the raw data. Lots of missing values there (grey) and a couple of standout individuals (horizontal streaks).
+
+Let us apply a filtering regime to the unfiltered data. I have set verbosity to zero to limit the output
+
+```{r filter, eval = FALSE}
+
+gl <- gl.filter.sexlinked(gl, 'xy')
+gl <- gl.filter.secondaries(gl)
+gl <- gl.filter.callrate(gl, threshold=0.95) 
+gl <- gl.filter.callrate(gl, threshold=0.95,
+                         method='ind', mono.rm=TRUE) 
+gl <- gl.filter.reproducibility(gl, threshold=0.995) 
+gl <- gl.filter.rdepth(gl,lower=8) 
+```
+
+We will not show the output here, but you should check the progressive loss of loci as you work through the above statements in RStudio.
+
+Examine the smearplot again for signs of improvement after filtering. 
+
+```{r 51c, eval = FALSE}
+gl.smearplot(gl)
+```
+
+The smear plot is much better. The number of missing values do not dominate the visual, and no individuals stand out as outliers in pattern. our filtering has worked.
+
+Quick final check:
+
+
+```{r 51d, eval = FALSE}
+nLoc(gl)
+nInd(gl)
+table(pop(gl))
+```
+
+After filtering, we have 1073 loci remaining.
+Now save the filtered data in binary form for use in Chapter 6.
+
+```{r eval = FALSE}
+gl.save(gl,"Tympo_SNP_filtered.Rdata")
+```
+
+This can be loaded later using [gl.load()]{style="color:blue;"}.
+
+We are done with the worked example in Chapter 5. Try the Exercises for Chapter 5 and then head back to the eBook for Chapter 6 - Exploartory Visualisation. 
+
+## Exercise 5-1: Filtering the Platypus dataset
+- Examine the attributes of the dataset [platypus.gl]{style="color:blue;"} paying particular attention to the presence of monomorphic loci and loci or individuals with all [NA]{style="color:blue;"} scores.
+
+- Use the gl.report functions in combination with the [gl.filter]{style="color:blue;"} functions to devise and execute a series of filtering steps to yield a reliable set of SNP markers.
+
+- How many SNP markers did you start with, and how many did you end up with? 
+
+- Which filtering steps generate monomorphic markers, and how does this influence when you filter for monomorphic markers?
+
+- Check the number of individuals remaining in each of the populations defined for the dataset. Has your filtering potentially compromised subsequent analyses by decimating particular populations [maybe do a before-after comparison].
+
+- Draft a section for a possible materials and methods section of a paper outlining your filtering strategy and its implementation.
+
+## Exercise 5-2: Filtering the Tympo Silico dataset
+
+-	Add a statement to read the Tympo Silico data, [Report_DTym25-13579_SilicoDArT.csv]{style="color:blue;"}, in as a dartR genlight object called [gs]{style="color:blue;"}. Check that the data read in without error (remember that there are different functions to load in SNP data and Silico data).
+
+- Use the gl.report functions in combination with the [gl.filter]{style="color:blue;"} functions to devise and execute a series of filtering steps to yield a reliable set of Silico markers.
+
+- How many Silico markers did you start with, and how many did you end up with? 
+
+- Check the number of individuals remaining in each of the populations defined for the dataset.
+
+- Save your filtered dataset as [Tympo_Silico_filtered.Rdata]{style="color:blue;"} using [gl.save]{style="color:blue;"}
+
+
+## Chapter 6
+
+
+### {data-continue-text="Continue to Worked Example"}
+
+The objective of this chapter is to introduce you to the options available for visualising structure in SNP and SilicoDArT datasets using a dimension-reduction technique called Principal Components Analysis (PCA). 
+
+## Worked Example 6-1: Exploratory visualisation {data-progressive=TRUE}
+
+This worked example will take you by the hand and lead you through the analyses for visualising structure in your complex SNP and SilicoDArT datasets. This is a basic introduction so we will not be comprehensive. 
+
+We assume that you have read the data in for the earless dragon as outlined in Chapter 3, looked at the quality of the data as outlined in Chapter 4 and filtered the data to derive a subset of highly reliable SNP or SilicoDArT markers. The outcome of these analyses has been stored in [Tympo_SNP_filtered.Rdata]{style="color:blue;"} upon which you will draw for this worked example.
+
+### Load the Dataset
+
+First, load in the dataset using
+
+```{r eval = FALSE}
+gl <- gl.load("Tympo_SNP_filtered.Rdata")
+```
+
+Quickly examine the contents of your genlight object. 
+
+```{r 61a, eval=FALSE}
+nInd(gl)
+nLoc(gl)
+nPop(gl)
+table(pop(gl))
+```
+
+If all is well, proceed
+
+### Principal Components Analysis
+Assuming you have filtered the data appropriately, there should not be a dominance of missing data. This is important, because classical PCA assumes that your data matrix is dense. Missing values are not tolerated and need to be imputed. Often this is implicit in the algorithms applied, and not apparent to the end user.
+
+```{r 61b, eval=FALSE}
+gl
+```
+
+Only 0.99% of the 1073 SNP scores are missing (NA). That is well within the tolerances of PCA.
+
+To run the PCA, use:
+
+```{r 61c, eval=FALSE}
+# this will take a while ~ 30 seconds 
+pca <- gl.pcoa(gl) 
+```
+
+
+The results of the PCA show that of the ordered PCA axes, PCA1 explains 9.3% of the total variation in the dataset, PCA2 explains a further 7.7% and PCA3 explains a further 2.4% of total variation. Looking at the scree plot, 59 axes are regarded as informative (explaining more than the 596 original variables on average), but all but the first threepcoa add only marginal additional explanatory value.
+
+Now for the visualisation.
+
+```{r 61d, eval=FALSE}
+pc.plot <- gl.pcoa.plot(pca, gl)
+```
+
+The plot shows nice separation of the geographic locations, which indicates that the individuals from each physical location have distinct allelic frequency profiles. Tuggeranong stands out as distinctive, to the point that if you had an unknown individual from that locality, it could be assigned to Tuggeranong by its allelic profile across the 1073 loci.
+
+Kowen is also quite distinct, but the allelic profiles from the other two localities abut. There appears to be evidence of some migration between Googong and Royalla as indicated by individuals in each with allelic profiles characteristic of the other. Similarly, some Royalla individuals appear to have migrated to Kowen and one in the other direction. The unknown (purple) individuals are best assigned to Royalla.
+
+We hope that you can see the power of this exploratory visual technique.
+If you want to identify the migrants, you can use the parameter [interactive=TRUE]{style="color:blue;"} and mouse-over the points to obtain their identities.
+
+```{r 61e, eval=FALSE}
+gl.pcoa.plot(pca, gl, interactive=TRUE)
+```
+
+One final point relates to visualisation in only two dimensions. The first two PCA axes explain the bulk of the structural signal in the data, but the third dimension may also be informative. This means that proximity as seen in the first two dimensions may prove to be an illusion when the third dimension is considered.
+
+```{r 61f, eval=FALSE}
+pc.plot2 <- gl.pcoa.plot(pca,gl,xaxis=1,yaxis=3)
+```
+
+In this case, there is no additional structure revealed by examining the third PCA over and above what was evident in the plot of PCA1 and PCA2.
+
+That is PCA in a nutshell. There is much more to it, and this will be covered in the next eBook on Advanced Topics in dartRverse.
+
+### Geographic Plot
+
+We finish with showing how to produce a geographic plot for studies where geography is meaningful and latitude and longitude values are supplied.
+
+```{r 61g, eval=FALSE}
+gl.map.interactive(gl)
+```
+
+A nice plot to give the study a geographic context. Note that the Canberra grassland earless dragon is critically endangered, so the locations have been heavily modified for the sake of this worked example.
+
+And that brings us to the end of the Worked Examples for Chapter 6. 
+
+
+## Exercise 6-1: Introduced Possums in New Zealand
+
+### {data-continue-text="Next Exercise"}
+
+The common brushtail possum Trichosurus vulpecula from the Australian mainland and from Tasmania were introduced multiple times to New Zealand to become one of New Zealand’s most significant pests. Photo: WikiCommons.
+
+Possums in the Hawkes Bay region of New Zealand consist of at least two overlapping populations. Campbell et al. (2021, Biological Invasions 23:3831-45) examined possums from this region using SNP genotypes to examine the origins and population structure of those possums and compare their genetic diversity to animals sampled from Australia.
+
+In this exercise, we will restrict our attention to samples from southeastern Australia, Tasmania and the Flinders Island in the intervening Bass Strait to see what an exploratory analysis using PCA might reveal as hypotheses for further testing.
+
+The data have been saved in binary form in [NZ_possums.Rdata]{style="color:blue;"}. Note that the data have been modified for educational purposes, and in particular, possum populations from Arnhem Land and the Atherton Tablelands of northern Australia have been excluded.
+
+Be sure to set global verbosity to 3.
+
+- How many individuals, loci and populations exist in the dataset?
+
+- Apply some standard filters for sex linkage, secondaries, Call Rate on both loci and individuals, reproducibility and lastly monomorphs. How many individuals, loci and populations now remain in the filtered dataset.
+
+- Plot a distribution map to show where the samples come from. Consider only the NZ samples and plot a distribution map for those. The three groups are defined geographically, with rivers forming partial barriers.
+
+- Examine the contents of the filtered data set to see what proportion of missing values remain.
+
+- Because classical PCA is intolerant of missing values, take control of their management by imputing missing values using nearest-neighbor imputation.
+- Run a PCA and plot the results graphically.
+
+- Where in Australia is the likely source of New Zealand group A? What about group C? Is there any evidence of a contribution to the New Zealand populations from mainland Australia? What could explain the poor association of the NZ possums with the mainland Australian populations in the PCA? The authors had more data at hand than the SNPs. How did they interpret the results?
+
+
+## Exercise 6-2: visualising Structure in SilicoDArT
+
+- Using the filtered SilicoDArT Tympo data [Tympo_Silico_filtered.Rdata]{style="color:blue;"} from [Exercise 5-2: Filtering the Tympo Silico dataset], run a pca and compare the outcome to the SNP pca. Are they similar? What is different?
+
+
+## Integrative Exercises
+
+We strongly encourage you to finish off the eBook by completing some of the integrative exercises we have crafted for you, which cover the full range of skills and knowledge that is covered in the eBook. We call them Integrative Exercises. It is in undertaking these exercises that the real, deep learning will occur. It will stay with you.
+
+## Exercise 7-1: Camaroon Macrobrachium 
+
+Macrobrachium is a large and cosmopolitan crustacean genus of high economic importance worldwide. The authors of [this study](https://doi.org/10.1002/ece3.5854) investigated the morphological and molecular identification of freshwater prawns of the genus Macrobrachium in South, Southwest and Littoral regions of Cameroon in Africa. Seven species occur in the area:  *M. vollenhovenii, M. macrobrachion, M. sollaudii, M. dux, M. chevalieri, M. felicinum* and an undescribed *Macrobrachium* species. The objective of the study was to validate (or invalidate) the identified species based on their genetic profiles. A total of 93 individuals representing these species were subjected to genetic characterization using 1,814 DArT markers. This study is considered valuable for informing breeding design and genetic resource conservation programs for Macrobrachium in Africa.
+
+![](images/ex7-1.jpg)
+
+Refer to the [original paper](https://doi.org/10.1002/ece3.5854) by Judith Makombu and her team for further detail on the study. 
+
+You are asked to use this dataset to apply what you have learned from this introductory eBook, drawing from across all Chapters of this eBook. Note that the data may have been modified for educational purposes and that you should refer to the original paper and its supplementary files for the definitive data, or contact the authors directly, if you wish to draw upon these data for research purposes.
+
+
+#### Begin by reading the SNP data into dartRverse 
+
+-	First, examine the contents of the metadata file, [Macrobrachium_ind_metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Macrobrachium_ind_metadata.csv). This file has the individual metadata associated with each individual, including such attributes as sex, latitude, longitude, river etc. Recall that these individual metadata are assigned to each individual as the data are read in.
+
+-	Read the data into dartRverse from [Report-DShr16-2215_2Row_SNP.csv]{style="color: blue;"}. Be sure to associate the individual metadata.
+
+-	Save the raw dataset in binary form using a sensible name (e.g. [Macrobrachium_Cameroon_raw_SNP.Rdata]{style="color: blue;"}).
+
+-	Interrogate the data. How many individuals are there? What names have been assigned to the individuals? How many populations have been defined? What are the population names? How many loci are there in the raw dataset? Examine the genotypes for the first 7 individuals for the first 5 loci.
+
+#### Undertake some quality control (QC) examinations.
+
+-	Are there any monomorphic loci in the dataset provided by Diversity Arrays Technology? If not, why not? And what analyses might be affected by this?
+
+-	What about CallRate. The CallRate is particularly poor, with most of the loci called less than 40% of individuals. This is a multispecies study. Why do you think the CallRate would be so low overall.
+
+-	Now examine secondaries. How many sequence tags contain more than one SNP? How many loci would be removed if you filtered for secondaries? Why are secondaries a problem, if in fact they are?
+
+-	Now examine read depth. If you set a read depth threshold in filtering of 10%, now many loci would you lose? Why might you do this?
+
+-	Now examine reproducibility. These reproducibility estimates look excellent. DArT advise against over-filtering on reproducibility. Why would they advise this?
+
+-	Now examine if any SNPs have been removed when trimming sequence tags of adapters. You should find that only three loci are identified. When might this be a problem in analysis?
+
+-	The authors of this work were concerned about loci with Minor Allele Frequencies. Examine the distribution of Minor Allele Frequencies estimated globally. How many loci would you lose if you set a threshold of 5% for Minor Allele Frequency? What about 10%?
+
+#### Filtering
+
+Having examined the dataset and undertaken some QC examinations, the time has come for some filtering. As we have emphasized, there is no one formula for filtering either in terms of the order of applying particular filters, and in the thresholds selected for filtering. 
+
+-	The authors of this work filtered on a CallRate threshold of 80% and on MAF threshold of 5%. They retained only 1,814 SNP loci. Repeat their filtering regime with dartRverse. Do you obtain the same result?
+
+-	Devise and apply a considered filtering strategy to yield a set of reliable SNP markers. Be sure to use a CallRate threshold of 80% as did the authors. Why? How many SNP loci are retained after your filtering strategy is applied? Might you have been too stringent?
+
+#### Exploratory visualisation
+-	Undertake a PCA analysis on your filtered data. How many informative axes are there under the broken-stick criterion? How many explain more than 10% of variation? How much variation is accommodated by the first two PCA axes? Would you be comfortable with restricting attention to the first two axes?
+
+-	 Plot PC2 against PC1. How does your plot compare to the one presented by the authors? Did your filtering regime have a substantial impact on the outcome?
+
+-	Given that the scree plot suggested that more than two PCA axes are informative, plot PC3 against PC1. Does this provide any further resolution on the relative proximities of the populations? What about Macrobrachium felicinum and Macrobrachium sp.? If you restricted attention to the plot of PC2 against PC1, what might you have concluded? Would this conclusion change on examination of the plot of PC3 and PC1.
+
+-	In the plot of PC2 against PC1, you might have noticed a ring-in in the Macrobrachium chevalieri grouping. Use the `interactive=TRUE` option in `gl.pcoa.plot()` to replot the PCA and allow mouse-over to identify individual points. Which individual appears to have been mis-assigned? What population is it assigned to in the original dataset?
+
+-	Reassign the individual to its correct population (chevalieri).
+
+-	Plot the individuals on a geographic map for context.
+
+#### SilicoDArT Analysis
+
+You should now repeat the above SNP analyses for the accompanying SilicoDArT dataset [Report-DShr16-2215_SilicoDArT.csv]{style="color:blue;"}. Be sure to associate the individual metadata on reading in the data.
+
+-	Be sure to save the filtered SilicoDArT dataset in binary form using a sensible name (e.g. [Macrobrachium_Cameroon_study_SilicoDArT_raw.Rdata]{style="color:blue;"}).
+
+-	Do the results of the SilicoDArT analysis correspond broadly to that of the SNP analysis?
+
+#### Winding up
+
+-	Save the filtered SNP dataset in binary form using a sensible name (e.g. [Macrobrachium_Cameroon_study_SNP_filtered.Rdata]{style="color:blue;"}).
+
+-	Save the filtered SilicoDArT dataset in binary form using a sensible name (e.g. [Macrobrachium_Cameroon_study_SilicoDArT_filtered.Rdata]{style="color:blue;"}).
+
+## Exercise 7-2: Western Sawshell Turtle
+
+The Western Sawshell Turtle *Myuchelys bellii* is an endangered species of freshwater turtle that resides in upstream regions of the Murray-Darling River drainage basin (MDB) in Australia. It is currently restricted to the upland regions of the Namoi, Gwydir and Border Rivers subdrainages of the MDB. Populations are through to have declined through a combination of river regulation, impoundment, and reduced flow connectivity, predation of eggs by foxes and pigs, and degradation of riparian vegetation and instream habitat. Populations are thought to be fragmented which makes the species particularly vulnerable to future rapid changes in climate, habitat and disease outbreak.
+
+![](images/ex7-2.jpg)
+
+The objective of this study, as yet unpublished, is to examine genetic structure across the range of the species with a view to informing options for its conservation management.
+
+You are asked to use this dataset to apply what you have learned from this introductory eBook, drawing from across all Chapters of this eBook. Note that the data may have been modified for educational purposes and should not be used for research purposes.
+
+
+#### Begin by reading the SNP data into dartRverse 
+
+-	First, examine the contents of the metadata file, [Myuchelys_bellii_ind_metadata.csv]{style="color:blue;"}. This file has the individual metadata associated with each individual, including such attributes as sex, species, latitude, longitude, etc. Note that the service included multiple species, not just our focal species *Myuchelys bellii*.
+
+-	Read the data into dartRverse from [Report_DFwt25-10896_SNP_2Row.csv]{style="color:blue;"}. Be sure to associate the individual metadata.
+
+-	Briefly interrogate the data. How many individuals are there? How many populations? What are the population names? How many SNP loci?
+
+-	Generate a smearplot for the data prior to any manipulations. What do you conclude in terms of patterns of missing data (white)?
+
+-	Remove all individuals that are not *Myuchelys bellii*. There are many ways to do this (e.g. recode tables), but try using the `as.pop` feature of the gl.keep.pop() function. You may need to look at the names of the individual metrics (`names(gl@other$ind.metrics)`) to determine which variable is a useful substitute for the population names.
+
+-	Confirm that only individuals from the species *Myuchelys bellii* remain in the dataset.
+
+-	Now remove individuals for which there are no locality data (for which `lat=NA`). Again, use the `as.pop` parameter this time in `gl.drop.pop()`. Check afterwards that they all have lat-lon data.
+
+-	Filter for monomorphic loci because deleting populations or individuals may generate many monomorphic loci, and we want a clean start (as if only Myuchelys bellii was in the DArT service). How many monomorphic loci were generated by the removal of individuals from the dataset?
+
+-	Generate a smearplot again now that you have removed all but individuals from the focal species and filtered for monomorphic loci (including all NA loci). What improvement do you notice in terms of patterns of missing data (white)? Are there still some issues?
+
+-	Interrogate the data again. How many individuals are there? What names have been assigned to the individuals? How many populations have been defined? What are the population names? How many loci are there in the raw dataset? Examine the genotypes for the first 7 individuals for the first 5 loci.
+
+-	Save the raw dataset in binary form using a sensible name (e.g. [Myuchelys_bellii_raw_SNP.Rdata]{style="color:blue;"}).
+
+#### Undertake some quality control (QC) examinations.
+
+-	Start with CallRate. The CallRate distribution is pretty good, but there are some loci for which the CallRate is particularly poor. Some filtering will be required later.
+
+-	Now examine secondaries. How many sequence tags contain more than one SNP? How many loci would be removed if you filtered for secondaries? By far most sequence tags have only one SNP, but there are some with multiple SNPs (secondaries). Remind yourself why secondaries are a problem, if in fact they are?
+
+-	Now examine read depth. If you set a read depth threshold in filtering of 5x, now many loci would you lose? What about 8x? Remind yourself why might you do this?
+
+-	Now examine reproducibility. Do you think filtering on reproducibility is warranted? Remember, DArT advise against over-filtering on reproducibility (setting the threshold at 1). 
+-	Now examine if any SNPs have been removed when trimming sequence tags of adapters. Likely to be a problem?
+
+-	Examine the distribution of Minor Allele Frequencies estimated globally. How many loci would you lose if you set a threshold of 5% for Minor Allele Frequency?
+
+#### Filtering
+
+Having examined the dataset and undertaken some QC examinations, the time has come for some filtering. As we have emphasised, there is no one formula for filtering either in terms of the order of applying particular filters, and in the thresholds selected for filtering. 
+
+-	Devise and apply a considered filtering strategy to yield a set of reliable SNP markers. How many SNP loci are retained after your filtering strategy is applied? Might you have been too stringent?
+
+-	Generate a third smearplot for the data after filtering. What do you conclude in terms of patterns of missing data (white). Ready to go?
+
+#### Exploratory visualisation
+
+-	Undertake a PCA analysis on your filtered data. How many informative axes are there under the broken-stick criterion? How many explain more than 10% of variation? How much variation is accommodated by the first two PCA axes? Would you be comfortable with restricting attention to the first two axes?
+
+-	 Plot PC2 against PC1. This is pretty messy, especially because of the staggering of labels which draws them away from their associated points. Try running the plot script using the `as.pop` parameter set to `"drainage"`.
+
+-	What do you conclude about the potential for genetically distinct management units across the range of the species? How would you consider managing the genetic diversity of the species?
+
+-	Plot the individuals on a geographic map for context. Try zooming out to better examine the locality data.
+
+#### SilicoDArT Analysis
+
+You should now repeat the above SNP analyses for the accompanying SilicoDArT dataset [Report_DFwt25-10896_SilicoDArT.csv]{style="color:blue;"}. Be sure to associate the individual metadata on reading in the data.
+
+-	Restrict your attention again to *Myuchelys bellii*.
+
+-	Be sure to save the filtered SilicoDArT dataset in binary form using a sensible name (e.g. [Myuchelys_bellii_SilicoDArT_raw.Rdata]{style="color:blue;"}).
+
+-	Do the results of the SilicoDArT analysis correspond broadly to that of the SNP analysis?
+
+#### Winding up
+
+-	Save the filtered SNP dataset in binary form using a sensible name (e.g. [Myuchelys_bellii_SNP_filtered.Rdata]{style="color:blue;"}).
+
+-	Save the filtered SilicoDArT dataset in binary form using a sensible name (e.g. [Myuchelys_bellii_SilicoDArT_filtered.Rdata]{style="color:blue;"}).
+
+-	Save your project and exit.
+
+## Exercise 7-3: Northern Quoll
+
+Landscape-scale conservation needs to consider metapopulation dynamics declines of species facing multiple threats to their survival are to be abated or reversed. This study uses SNPs in support of decision-making in the context of metapopulations of the northern quoll *Dasyurus hallucatus* in the Pilbara of Western Australia. The landscape is subject to multiple uses and is a hotspot for biodiversity and mining. One objective of this study was to examine genetic structure across the range of the species with a view to informing options for its conservation management.
+
+![](images/ex7-3.jpg)
+
+This work has been published in [Conservation Biology](https://doi.org/10.1111/cobi.13989). You are encouraged to read this paper to gain a greater appreciation of the context of the analysis.
+You are asked to use this dataset to apply what you have learned from this introductory eBook, drawing from across all Chapters of this eBook. Note that the data may have been modified for educational purposes and should not be used for research purposes.
+
+#### Begin by reading the SNP data into dartRverse 
+
+-	First, examine the contents of the metadata file, [Dasyurus_hallucatus_ind.metadata.csv](http://georges.biomatix.org/storage/app/media/eBook1/Dasyurus_hallucatus_ind.metadata.csv). This file has the metadata associated with each individual, including such attributes as sex, species, latitude, longitude, etc. 
+
+-	We have already read the data into dartRverse from [Report_DDasy19-4717_1Row.csv]{style="color:blue;"} and saved it as [Dasyurus_SNP_raw.Rdata]{style="color:blue;"}. Load this binary datafile [Dasyurus_SNP_raw.Rdata]{style="color:blue;"} into dartRverse.
+
+-	Briefly interrogate the data. How many individuals are there? How many populations? What are the population names? How many SNP loci? What are the variables in the associated metadata? Examine the genotypes for the first 7 individuals for the first 5 loci.
+
+-	Generate a smearplot for the data prior to any manipulations. What do you conclude in terms of patterns of missing data (white)?
+
+#### Undertake some quality control (QC) examinations.
+
+-	Start with CallRate. The CallRate distribution is pretty broad, with some loci having a CallRate as low as 20%. We can expect some substantial losses of loci under standard filtering regimes later. 
+
+-	Consider Call Rate by individual. Are all individuals scored well across loci, or are there some individuals that would best be discarded. What might be a good cut-off for filtering out individuals with poor Call Rates.
+
+-	Now examine secondaries. How many sequence tags contain more than one SNP? How many loci would be removed if you filtered for secondaries? Remind yourself why secondaries are a problem, if in fact they are?
+
+-	Now examine read depth. If you set a read depth threshold in filtering of 5x, now many loci would you lose? What about 8x? Remind yourself why might you do this?
+
+-	Now examine reproducibility. Do you think filtering on reproducibility is warranted? Remember, DArT advise against over-filtering on reproducibility (i.e. setting the threshold at 1). 
+
+-	Now examine if any SNPs will be removed when trimming sequence tags of adapters. Likely to be a problem?
+
+-	Examine the distribution of Minor Allele Frequencies estimated globally. How many loci would you lose if you set a threshold of 5% for Minor Allele Frequency?
+
+#### Filtering
+
+Having examined the dataset and undertaken some QC examinations, the time has come for some filtering. As we have emphasised, there is no one formula for filtering either in terms of the order of applying particular filters, and in the thresholds selected for filtering. 
+
+-	Devise and apply a considered filtering strategy to yield a set of reliable SNP markers. How many SNP loci are retained after your filtering strategy is applied? Might you have been too stringent?
+
+-	Generate a third smearplot for the data after filtering. What do you conclude in terms of patterns of missing data (white). Is it beautiful? Ready to go?
+
+#### Exploratory visualisation
+
+-	Undertake a PCA analysis on your filtered data. How many informative axes are there under the broken-stick criterion? How many explain more than 10% of variation? How much variation is accommodated by the first two PCA axes? Would you be comfortable with restricting attention to the first two axes?
+
+-	 Plot PC2 against PC1. This is pretty messy, especially because of the staggering of labels which draws them away from their associated points. Try running the plot script using the `as.pop` parameter set to `IBRA_SubRegion`.
+
+-	The variation represented by PC1 is largely to do with the divergence of Dolphin Island from the rest of the individuals. To examine structure deeper in the PCA dimensions, you can plot PC3 against PC2. Try also the alternative of removing the Dolphin Island individuals (`gl.drop.pop()` using the `as.pop` parameter) then re-running the PCA. Which of these approaches best reproduces the results presented in the paper?
+
+-	Plot the individuals on a geographic map for context. Try zooming out to better examine the locality data.
+
+#### Winding up
+
+-	Save the filtered SNP dataset in binary form using a sensible name (e.g. [Dasyurus_SNP_filtered.Rdata]{style="color:blue;"}).
+
+-	Save your project and exit.
+
+
+---
+title: "eBook Getting Started with dartRverse" 
 author: "The dartRverse Team"
 date: | 
     ![](images/dartR7.png){width=6cm}
     
 tutorial:
-  id: "dartr.eBook1"   # pick any stable, unique string
+  id: "dartr.getting-started"   # pick any stable, unique string
   version: "1.0.23"                 # bump this to force a “fresh” tutorial state
   
 output:
@@ -39,13 +2699,13 @@ p <- file.path("www", "reassign_ind_function.R")
 
 # If render is happening from repo root
 if (!file.exists(p)) {
-  p <- file.path("inst", "tutorials", "eBook1", "www", "reassign_ind_function.R")
+  p <- file.path("inst", "tutorials", "getting-started", "www", "reassign_ind_function.R")
 }
 
 # If running from an installed package
 if (!file.exists(p)) {
-  p_pkg <- system.file("tutorials/eBook1/www/reassign_ind_function.R",
-                       package = "eBook1")
+  p_pkg <- system.file("tutorials/getting-started/www/reassign_ind_function.R",
+                       package = "dartRstartup")
   if (nzchar(p_pkg)) p <- p_pkg
 }
 
@@ -53,7 +2713,7 @@ if (!file.exists(p)) {
   stop("Cannot find reassign_ind_function.R (tried local and installed locations).")
 }
 source(p)
-library(eBook1)
+library(dartRstartup)
 
 ```
 ## Getting Started {#custom data-progressive=FALSE}
@@ -1272,7 +3932,7 @@ In this worked example we will be drawing upon data for the Canberra grassland e
 ```{r eval= FALSE}
 library(dartRverse)
 gl.set.verbosity(3)
-eBook1::eBook1_data(data_folder = "data")
+dartRstartup::eBook1_data(data_folder = "data")
 ```
 
 
